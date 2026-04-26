@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7043092074698157724}
-  m_Mesh: {fileID: -1537117618501155943, guid: 1ed24368dbbbf9b4cb09f7787cabe746, type: 3}
+  m_Mesh: {fileID: 4300000, guid: c192c15f0e483524d86fced640288a85, type: 2}
 --- !u!23 &4986521223612290133
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5616107228302579216, guid: 1ed24368dbbbf9b4cb09f7787cabe746, type: 3}
+  - {fileID: 2100000, guid: c828a3763aa342244acd9fe6c5d42a0e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -121,7 +121,10 @@ MonoBehaviour:
   chessPieceData: {fileID: 11400000, guid: 2eec68b4cfee24a4899e2c36ea6d1970, type: 2}
   pieceMeshRenderer: {fileID: 4986521223612290133}
   chessBoardController: {fileID: 0}
+  placementSystem: {fileID: 0}
   pieceType: 
   pieceColor: 
   currentPosition: 
   HasMoved: 0
+  Movement: 0
+  CurrentPieceBoardStatusEffect: {fileID: 0}

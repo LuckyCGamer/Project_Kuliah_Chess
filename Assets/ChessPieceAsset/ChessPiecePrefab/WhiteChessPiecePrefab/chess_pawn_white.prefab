@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7043092074698157724}
-  m_Mesh: {fileID: -4059193551623140618, guid: 1ed24368dbbbf9b4cb09f7787cabe746, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 610c4d509264ed140a8ae122d92993c2, type: 2}
 --- !u!23 &4986521223612290133
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -121,7 +121,10 @@ MonoBehaviour:
   chessPieceData: {fileID: 11400000, guid: 0431f09e54ea17b4f9604b7bb2b5fddc, type: 2}
   pieceMeshRenderer: {fileID: 4986521223612290133}
   chessBoardController: {fileID: 0}
+  placementSystem: {fileID: 0}
   pieceType: 
   pieceColor: 
   currentPosition: 
   HasMoved: 0
+  Movement: 0
+  CurrentPieceBoardStatusEffect: {fileID: 0}
