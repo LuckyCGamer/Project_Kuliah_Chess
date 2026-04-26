@@ -6,7 +6,7 @@ public class DrawCardEffect : Effect
 {
     [SerializeField] private int drawAmount;
 
-    public override GameAction GetGameAction()
+    public override GameAction GetGameAction(Vector3Int targetGrid)
     {
         DrawCardGA drawCardGA = new(drawAmount);
         return drawCardGA;

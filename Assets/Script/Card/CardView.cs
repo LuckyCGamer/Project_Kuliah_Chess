@@ -15,6 +15,22 @@ public class CardView : MonoBehaviour
     public Card Card { get; private set;}
     private Vector3 dragStartPosition;
     private Quaternion dragStartRotation;
+    private PlacementSystem placementSystem;
+    private InputManager InputManager;
+    private DropArea dropArea;
+
+
+    public void Awake()
+    {
+        placementSystem = FindFirstObjectByType<PlacementSystem>();
+        InputManager = FindFirstObjectByType<InputManager>();
+        
+    }
+
+    public void Start()
+    {
+        dropArea = FindFirstObjectByType<DropArea>();
+    }
 
     public void Setup (Card card)
     {
@@ -26,11 +42,16 @@ public class CardView : MonoBehaviour
 
     void OnMouseEnter()
     {
-        float zoffset = 0.25f;
+        float zoffset = 0.05f;
         if(!Interactions.Instance.PlayerCanHover()) return;
+
         wrapper.SetActive(false);
         Vector3 pos = new(transform.position.x, 0.5f, transform.position.z + zoffset);
-        CardViewHoverSystem.Instance.Show(Card, pos);
+        
+        // Hover card rotation
+        Quaternion rotation = Quaternion.Euler(45, 0, 0);
+
+        CardViewHoverSystem.Instance.Show(Card, pos, rotation);
     }
 
     void OnMouseExit()
@@ -46,26 +67,42 @@ public class CardView : MonoBehaviour
         Interactions.Instance.PlayerIsDragging = true;
         wrapper.SetActive(true);
         CardViewHoverSystem.Instance.Hide();
+
         dragStartPosition = transform.position;
         dragStartRotation = transform.rotation;
-        transform.rotation = Quaternion.Euler(0,0,0);
-        transform.position = MouseUtil.GetMousePositionInWorldSpace(transform.position.z);
+
+        transform.rotation = Quaternion.Euler(45,0,0);
+        transform.position = MouseUtil.GetMousePositionInWorldSpace(transform.position);
     }
 
     void OnMouseDrag()
     {
         if(!Interactions.Instance.PlayerCanInteract()) return;
-        transform.position = MouseUtil.GetMousePositionInWorldSpace(transform.position.z);
+        transform.position = MouseUtil.GetMousePositionInWorldSpace(transform.position);
     }
 
     void OnMouseUp()
     {
         if(!Interactions.Instance.PlayerCanInteract()) return;
-        if(Physics.Raycast(transform.position, Vector3.forward, out RaycastHit hit, 10f, dropLayer))
+        
+        Vector3 mousePos = Input.mousePosition;
+        Ray ray = Camera.main.ScreenPointToRay(mousePos);
+    
+
+        if(Physics.Raycast(ray, out RaycastHit hit, 100f, dropLayer))
         {
             // Play a card
-            PlayCardGA playCardGA = new(Card);
-            ActionSystem.Instance.Perform(playCardGA);
+            if (Card.IsPlacement)
+            {
+                placementSystem.StartPlacement(Card.IDGrid);
+                gameObject.SetActive(false);
+                InputManager.CardPlayed(Card, dragStartPosition, dragStartRotation, gameObject);
+            }
+            else
+            {
+                PlayCardGA playCardGA = new(Card, Vector3Int.zero);
+                ActionSystem.Instance.Perform(playCardGA);
+            }
         }
         else
         {

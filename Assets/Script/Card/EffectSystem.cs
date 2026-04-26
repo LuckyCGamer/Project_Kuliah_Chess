@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EffectSystem : MonoBehaviour
 {
-    
+
     void OnEnable()
     {
         ActionSystem.AttachPerformer<PerformEffectGA>(PerformEffectPerformer);
@@ -17,7 +17,7 @@ public class EffectSystem : MonoBehaviour
 
     private IEnumerator PerformEffectPerformer(PerformEffectGA performEffectGA)
     {
-        GameAction effectAction = performEffectGA.Effect.GetGameAction();
+        GameAction effectAction = performEffectGA.Effect.GetGameAction(performEffectGA.targetGrid);
         ActionSystem.Instance.AddReaction(effectAction);
         yield return null;
     }

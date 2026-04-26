@@ -64,7 +64,7 @@ public class King : Piece
             if (newPosition[1] == '7')
             {
                 Piece rook = chessBoardController.GetChessPieceAtPosition($"{currentPositionHorizontal}8").GetComponent<Piece>();
-                Debug.Log(rook);
+                // Debug.Log(rook);
                 if (rook is Rook)
                 {
                     rook.MoveToPosition($"{currentPositionHorizontal}6");
@@ -122,7 +122,8 @@ public class King : Piece
     {
         string currentPosition = this.currentPosition;
         char currentPositionHorizontal = currentPosition[0];
-        Piece rook = chessBoardController.GetChessPieceAtPosition($"{currentPositionHorizontal}8")?.GetComponent<Piece>();
+        Piece rook =
+            chessBoardController.GetChessPieceAtPosition($"{currentPositionHorizontal}8")?.GetComponent<Piece>();
 
         if (rook is Rook && rook.HasMoved == 0)
         {
@@ -143,7 +144,8 @@ public class King : Piece
     {
         string currentPosition = this.currentPosition;
         char currentPositionHorizontal = currentPosition[0];
-        Piece rook = chessBoardController.GetChessPieceAtPosition($"{currentPositionHorizontal}1")?.GetComponent<Piece>();
+        Piece rook = 
+            chessBoardController.GetChessPieceAtPosition($"{currentPositionHorizontal}1")?.GetComponent<Piece>();
 
         if (rook is Rook && rook.HasMoved == 0)
         {

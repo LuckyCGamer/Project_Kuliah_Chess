@@ -5,11 +5,12 @@ using UnityEngine;
 public class CardViewHoverSystem : Singleton<CardViewHoverSystem>
 {
     [SerializeField] private CardView cardViewHover;
-    public void Show(Card card, Vector3 position)
+    public void Show(Card card, Vector3 position, Quaternion rotation)
     {
         cardViewHover.gameObject.SetActive(true);
         cardViewHover.Setup(card);
         cardViewHover.transform.position = position;
+        cardViewHover.transform.rotation = rotation;
     }
 
     public void Hide()

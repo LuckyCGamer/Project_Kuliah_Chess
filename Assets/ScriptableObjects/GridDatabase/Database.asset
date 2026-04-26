@@ -17,3 +17,4 @@ MonoBehaviour:
     <ID>k__BackingField: 1
     <Size>k__BackingField: {x: 2, y: 2}
     <Prefab>k__BackingField: {fileID: 6841572221981597451, guid: 738cb2ffb50b12d408b2b22697e181d6, type: 3}
+    <boardEffect>k__BackingField: {fileID: 11400000, guid: 2f6c8eb3a1e04a24992cc411293bcbb9, type: 2}

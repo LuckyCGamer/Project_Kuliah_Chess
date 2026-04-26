@@ -7,9 +7,12 @@ public static class MouseUtil
     
     private static Camera camera = Camera.main;
 
-    public static Vector3 GetMousePositionInWorldSpace(float zValue = 0f)
+    public static Vector3 GetMousePositionInWorldSpace(Vector3 position)
     {
-        Plane dragPlane = new(Camera.main.transform.forward, new Vector3(0, 0, zValue));    
+        Plane dragPlane = new(
+            camera.transform.forward,
+            position
+        );
         Ray ray = camera.ScreenPointToRay(Input.mousePosition);
         if(dragPlane.Raycast(ray, out float distance))
         {

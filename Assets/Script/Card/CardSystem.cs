@@ -9,6 +9,8 @@ public class CardSystem : Singleton<CardSystem>
     [SerializeField] private HandView handView;
     [SerializeField] private Transform drawPilePoint;
     [SerializeField] private Transform discardPilePoint;
+    [SerializeField] private ChessBoardController chessBoardController;
+    [SerializeField] private PlacementSystem placementSystem;
     private readonly List<Card> drawPile = new();
     private readonly List<Card> discardPile = new();
     private readonly List<Card> hand = new();
@@ -50,14 +52,6 @@ public class CardSystem : Singleton<CardSystem>
         {
             yield return DrawCard();
         }
-        if(notDrawnAmount > 0)
-        {
-            RefillDeck();
-            for (int i = 0; i < notDrawnAmount; i++)
-            {
-                yield return DrawCard();
-            }
-        }
     }
 
     private IEnumerator DiscardAllCardsPerformer(DiscardAllCardsGA discardAllCardsGA)
@@ -77,10 +71,11 @@ public class CardSystem : Singleton<CardSystem>
         CardView cardView = handView.RemoveCard(playCardGA.Card);
         yield return DiscardCard(cardView);
 
+        // Debug.Log(playCardGA.targetGrid);
         // Perform effects
-        foreach (var effect in playCardGA.Card.Effects)
+        foreach (Effect effect in playCardGA.Card.Effects)
         {
-            PerformEffectGA performEffectGA = new(effect);
+            PerformEffectGA performEffectGA = new(effect, playCardGA.targetGrid);
             ActionSystem.Instance.AddReaction(performEffectGA);
         }
     }
@@ -88,15 +83,24 @@ public class CardSystem : Singleton<CardSystem>
     // Reactions
     private void EnemyTurnPreReaction(EnemyTurnGA enemyTurnGA)
     {
-        DiscardAllCardsGA discardAllCardsGA = new();
-        ActionSystem.Instance.AddReaction(discardAllCardsGA);
+        // Debug.Log("Reduce duration board effect -1");
+        List<AddEffectOnBoardGA> boardEffects = new(chessBoardController.boardStatusEffect.Keys);
+
+        foreach(AddEffectOnBoardGA boardEffect in boardEffects)
+        {
+            chessBoardController.boardStatusEffect[boardEffect]--;
+            if (chessBoardController.boardStatusEffect[boardEffect] <= 0)
+            {
+                // Debug.Log($"effect on board {boardEffect.GridTarget}");
+                placementSystem.RemoveEffectOnBoard(boardEffect.GridTarget);
+                chessBoardController.boardStatusEffect.Remove(boardEffect);
+            }
+        }
     }
     private void EnemyTurnPostReaction(EnemyTurnGA enemyTurnGA)
     {
-        DrawCardGA drawCardGA = new(5);
-        ActionSystem.Instance.AddReaction(drawCardGA);
+        
     }
-
 
     //Helper
     private IEnumerator DrawCard()

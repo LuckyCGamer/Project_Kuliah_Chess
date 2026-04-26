@@ -8,13 +8,16 @@ public abstract class Piece : MonoBehaviour
     [SerializeField] private ChessPiece chessPieceData;
     [SerializeField] MeshRenderer pieceMeshRenderer;
     [SerializeField] public ChessBoardController chessBoardController;
+    [SerializeField] PlacementSystem placementSystem;
     public String pieceType;
     public String pieceColor;
     public String currentPosition;
     public int HasMoved;
+    public int Movement = 0;
+    public BoardEffect CurrentPieceBoardStatusEffect;
     protected abstract List<String> GetPotentialMoves();
-    public abstract List<String> GetAttackedFields();
 
+    public abstract List<String> GetAttackedFields();
     public virtual List<String> GetLegalMoves()
     {
         List<String> legalMoves = new List<String>();
@@ -67,6 +70,17 @@ public abstract class Piece : MonoBehaviour
     {
         // Implement movement logic here (e.g., update position, animate movement)
         // Debug.Log($"Moving {pieceColor} {pieceType} to {newPosition}");
+
+        if (IsPositionHasStatusEffect(newPosition))
+        {
+            Debug.Log($"{pieceType} {pieceColor} under status effect");
+            CurrentPieceBoardStatusEffect = GetBoardStatusEffect(newPosition);
+        }
+        else
+        {
+            RemoveStatusEffect();
+        }
+
         transform.position = GameObject.Find(newPosition).transform.position;
         chessBoardController.BoardDataNull(currentPosition);
         CapturePiece(newPosition);
@@ -89,10 +103,7 @@ public abstract class Piece : MonoBehaviour
     public void Awake()
     {
         chessBoardController = FindFirstObjectByType<ChessBoardController>();
-        if (chessBoardController == null)
-        {
-            Debug.LogError("ChessBoardController not found in scene. Assign it manually or add a ChessBoardController component.");
-        }
+        placementSystem = FindFirstObjectByType<PlacementSystem>();
     }
 
     public void Start()
@@ -130,6 +141,57 @@ public abstract class Piece : MonoBehaviour
         else
         {
             return false;
+        }
+    }
+
+    public Vector3Int TranslatePositionToCell(string position)
+    {
+        // Debug.Log(chessBoardController.boardGridLocation[position]);
+        Vector3Int Vector3Location = chessBoardController.boardGridLocation[position];
+        return Vector3Location;
+    }
+
+    public void RemoveStatusEffect()
+    {
+        CurrentPieceBoardStatusEffect = null;
+    }
+
+    public void AddStatusEffect(BoardEffect Effect)
+    {
+        CurrentPieceBoardStatusEffect = Effect;
+    }
+
+    public bool IsPositionHasStatusEffect(string position)
+    {
+        Vector3Int CheckPossibleMovementStatus = TranslatePositionToCell(position);
+        if ( placementSystem.spaceData.placedObjects.ContainsKey(CheckPossibleMovementStatus))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public BoardEffect GetBoardStatusEffect(string position)
+    {
+        if (IsPositionHasStatusEffect(position))
+        {
+            Vector3Int CheckPossibleMovementStatus = TranslatePositionToCell(position);
+            placementSystem.spaceData.placedObjects.TryGetValue(CheckPossibleMovementStatus, out PlacementData placementData);
+            return placementData.BoardEffect;
+        }
+        return null;
+    }
+
+    public void UpdateStatusEffect()
+    {
+        if (IsPositionHasStatusEffect(currentPosition))
+        {
+            // Debug.Log($"{pieceType} {pieceColor} under status effect");
+            CurrentPieceBoardStatusEffect = GetBoardStatusEffect(currentPosition);
+        }
+        else
+        {
+            RemoveStatusEffect();
         }
     }
 }

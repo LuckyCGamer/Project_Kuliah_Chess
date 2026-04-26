@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4986521223612290133}
   - component: {fileID: 1661491417013055721}
   - component: {fileID: 3671762992311224739}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: chess_pawn_white
   m_TagString: ChessPiece
   m_Icon: {fileID: 0}
@@ -104,8 +104,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.05002474, y: 0.12962106, z: 0.050636888}
-  m_Center: {x: -0.00045712665, y: 0.06489514, z: 0.0005334914}
+  m_Size: {x: 0.05002474, y: 0.12962106, z: 0.04934758}
+  m_Center: {x: -0.00045712665, y: 0.06489514, z: -0.0013490617}
 --- !u!114 &3671762992311224739
 MonoBehaviour:
   m_ObjectHideFlags: 0

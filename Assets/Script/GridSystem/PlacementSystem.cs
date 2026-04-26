@@ -10,13 +10,15 @@ public class PlacementSystem : MonoBehaviour
     [SerializeField] private InputManager inputManager;
     [SerializeField] private Grid grid;
     [SerializeField] private ObjectDatabaseSO database;
-    private GridData floorData, spaceData;
+    GridData floorData;
+    public GridData spaceData;
 
     [SerializeField] private GameObject gridVisualization;
     [SerializeField] private PreviewSystem previewSystem;
 
     private Vector3Int LastDetectedPosition = Vector3Int.zero;
     [SerializeField] private ObjectPlacer objectPlacer;
+    [SerializeField] private 
     
     IBuildingState buildingState;
 
@@ -52,9 +54,21 @@ public class PlacementSystem : MonoBehaviour
         Vector3 mousePosition = inputManager.GetSelectedMapPosition();
         Vector3Int gridPosition = grid.WorldToCell(mousePosition);
 
+        PlayCardGA playCardGA = new(inputManager.selectedCard, gridPosition);
+        ActionSystem.Instance.Perform(playCardGA);
+
         buildingState.OnAction(gridPosition);
         StopPlacement();
 
+    }
+
+    public void RemoveEffectOnBoard(Vector3Int gridPosition)
+    {
+        buildingState = new RemovingState(
+            grid, previewSystem, floorData, spaceData, objectPlacer
+        );
+        buildingState.OnAction(gridPosition);
+        StopPlacement();
     }
 
     // private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)

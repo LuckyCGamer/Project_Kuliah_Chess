@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7905876038371339853}
   - component: {fileID: 5394675608036333159}
   - component: {fileID: 5195676736562387006}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HighLight
   m_TagString: HighLight
   m_Icon: {fileID: 0}

@@ -44,6 +44,8 @@ public class CreateChessBoard : MonoBehaviour
                 newPlane.name = $"{chessPieces[j]}{i + 1}";
                 newPlane.tag = "PositionBoard";
                 chessBoardController.AddBoardData($"{chessPieces[j]}{i + 1}", null);
+                chessBoardController.boardGridLocation.Add($"{chessPieces[j]}{i + 1}", chessBoardController.boardGrid.WorldToCell(newPlane.transform.position) - new Vector3Int(0,0,1));
+                // Debug.Log(chessBoardController.boardGridLocation[$"{chessPieces[j]}{i + 1}"]);
             }
         }
     }
@@ -51,48 +53,54 @@ public class CreateChessBoard : MonoBehaviour
     public void PlaceStartingPosition()
     {
 
-        // // Black and White Pawns
-        // for (int i = 0; i < boardSize; i++)
-        // {
-        //     InstantiatePiece(PiecePrefabs[0], $"B{i + 1}");
-        //     InstantiatePiece(PiecePrefabs[1], $"G{i + 1}");
-        // }
+        normalChessPiecePosition();
 
-        // // Kings Black
-        // InstantiatePiece(PiecePrefabs[2], "A5");
+    }
 
-        // //Black Rooks
-        // InstantiatePiece(PiecePrefabs[3], "A1");
-        // InstantiatePiece(PiecePrefabs[3], "A8");
+    public void normalChessPiecePosition()
+    {
+        // Black and White Pawns
+        for (int i = 0; i < boardSize; i++)
+        {
+            InstantiatePiece(PiecePrefabs[0], $"B{i + 1}");
+            InstantiatePiece(PiecePrefabs[1], $"G{i + 1}");
+        }
 
-        // // Black Knights
-        // InstantiatePiece(PiecePrefabs[4], "A2");
-        // InstantiatePiece(PiecePrefabs[4], "A7");
+        // Kings Black
+        InstantiatePiece(PiecePrefabs[2], "A5");
 
-        // // Black Bishops
-        // InstantiatePiece(PiecePrefabs[5], "A3");
-        // InstantiatePiece(PiecePrefabs[5], "A6");
+        //Black Rooks
+        InstantiatePiece(PiecePrefabs[3], "A1");
+        InstantiatePiece(PiecePrefabs[3], "A8");
 
-        // // Black Queen
-        // InstantiatePiece(PiecePrefabs[6], "A4");
+        // Black Knights
+        InstantiatePiece(PiecePrefabs[4], "A2");
+        InstantiatePiece(PiecePrefabs[4], "A7");
 
-        // //King White
-        // InstantiatePiece(PiecePrefabs[7], "H4");
+        // Black Bishops
+        InstantiatePiece(PiecePrefabs[5], "A3");
+        InstantiatePiece(PiecePrefabs[5], "A6");
 
-        // // White Rooks
-        // InstantiatePiece(PiecePrefabs[8], "H1");
-        // InstantiatePiece(PiecePrefabs[8], "H8");
+        // Black Queen
+        InstantiatePiece(PiecePrefabs[6], "A4");
 
-        // // White Knights
-        // InstantiatePiece(PiecePrefabs[9], "H2");
-        // InstantiatePiece(PiecePrefabs[9], "H7");
+        //King White
+        InstantiatePiece(PiecePrefabs[7], "H5");
 
-        // // White Bishops
-        // InstantiatePiece(PiecePrefabs[10], "H3");
-        // InstantiatePiece(PiecePrefabs[10], "H6");
+        // White Rooks
+        InstantiatePiece(PiecePrefabs[8], "H1");
+        InstantiatePiece(PiecePrefabs[8], "H8");
 
-        // // Black Queen
-        // InstantiatePiece(PiecePrefabs[11], "H5");
+        // White Knights
+        InstantiatePiece(PiecePrefabs[9], "H2");
+        InstantiatePiece(PiecePrefabs[9], "H7");
+
+        // White Bishops
+        InstantiatePiece(PiecePrefabs[10], "H3");
+        InstantiatePiece(PiecePrefabs[10], "H6");
+
+        // White Queen
+        InstantiatePiece(PiecePrefabs[11], "H4");     
     }
 
     public void InstantiatePiece(GameObject chessPiecePrefab, string position)

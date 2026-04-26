@@ -6,9 +6,17 @@ public class PlayCardGA : GameAction
 {
 
     public Card Card{ get; private set;}
+    public Vector3Int targetGrid { get; private set; }
     public PlayCardGA(Card card)
     {
         Card = card;
+        targetGrid = Vector3Int.zero;
+    }
+
+    public PlayCardGA(Card card, Vector3Int gridTarget)
+    {
+        Card = card;
+        targetGrid = gridTarget;
     }
 
 }

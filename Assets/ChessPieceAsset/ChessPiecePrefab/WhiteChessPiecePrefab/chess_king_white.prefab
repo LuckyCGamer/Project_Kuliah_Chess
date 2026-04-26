@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4986521223612290133}
   - component: {fileID: 1661491417013055721}
   - component: {fileID: 4173307118079335255}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: chess_king_white
   m_TagString: ChessPiece
   m_Icon: {fileID: 0}

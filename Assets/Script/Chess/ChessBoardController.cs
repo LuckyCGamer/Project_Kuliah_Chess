@@ -3,20 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ChessBoardController : MonoBehaviour
 {
 
     public Dictionary<string, GameObject> chessBoardController = new Dictionary<string, GameObject>();
+    public Dictionary<string, Vector3Int> boardGridLocation = new();
     public List<Piece> piecesOnBoard;
     public bool isWhiteTurn;
     public GameObject lastMovedPiece;
     public string lastMovedPieceStartPosition;
     public string lastMovedPieceEndPosition;
-    public Dictionary<string, bool> whiteCheckMap = new Dictionary<string, bool>();
-    public Dictionary<string, bool> blackCheckMap = new Dictionary<string, bool>();
+    public Dictionary<string, bool> whiteCheckMap = new();
+    public Dictionary<string, bool> blackCheckMap = new();
+
+    // BoardStats Effect Variable
+    public Dictionary<AddEffectOnBoardGA, int> boardStatusEffect = new();
+    public GridData Temp = new();
     public bool isPromotionActive = false;
     private UIManagerChess UIManagerChess;
+    [SerializeField] public Grid boardGrid;
+    [SerializeField] PlacementSystem placementSystem;
 
     public void Start()
     {
@@ -26,13 +34,25 @@ public class ChessBoardController : MonoBehaviour
     public void Initialize()
     {
         isWhiteTurn = true;
+        ResetCheckMap();
     }
 
     public void EndTurn()
     {
         // Debug.Log("End Turn");
+        EnemyTurnGA enemyTurnGA = new();
+        ActionSystem.Instance.Perform(enemyTurnGA);
         isWhiteTurn = !isWhiteTurn;
         CheckGameOver();
+        UpdateAllChessPieceStatusEffect();
+    }
+
+    public void UpdateAllChessPieceStatusEffect()
+    {
+        foreach(Piece piece in piecesOnBoard)
+        {
+            piece.UpdateStatusEffect();
+        }
     }
 
     public void AddBoardData(string position, GameObject chessPiece)
@@ -195,6 +215,7 @@ public class ChessBoardController : MonoBehaviour
 
     public void CheckGameOver()
     {
+
         if (CheckKingStatus())
         {
             UpdatePiecesOnBoard();
@@ -227,6 +248,9 @@ public class ChessBoardController : MonoBehaviour
             int kingCount = 0;
             int knightCount = 0;
             int bishopCount = 0;
+            int queenCount = 0;
+            int rookCount = 0;
+
 
             foreach (Piece piece in piecesCopy)
             {
@@ -242,11 +266,22 @@ public class ChessBoardController : MonoBehaviour
                 {
                     bishopCount++;
                 }
+                else if (piece is Queen)
+                {
+                    queenCount++;
+                }
+                else if (piece is Rook)
+                {
+                    rookCount++;
+                }
             }
 
-            if (kingCount == 2 && (knightCount == 0 && bishopCount == 0 || knightCount == 1 && bishopCount == 0 || knightCount == 0 && bishopCount == 1))
+            if (kingCount == 2 && 
+                (knightCount == 0 && bishopCount == 0 && rookCount == 0 && queenCount == 0 || 
+                knightCount == 1 && bishopCount == 0 || 
+                knightCount == 0 && bishopCount == 1))
             {
-                string result = "Draw";
+                string result = "Draw insufficient piece";
                 Debug.Log(result);
                 return;
             }
@@ -266,7 +301,7 @@ public class ChessBoardController : MonoBehaviour
 
             if (!hasValidMoves)
             {
-                string result = "Draw";
+                string result = "Draw no move";
                 Debug.Log(result);
             }
 

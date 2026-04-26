@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     private GameObject ChessPieceSelected;
     [SerializeField] private GameObject HighLightObject;
     [SerializeField] public ChessBoardController chessBoardController;
+    [SerializeField] LayerMask boardLayer;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,7 +29,7 @@ public class GameManager : MonoBehaviour
         Vector3 mousePos = Input.mousePosition;
         Ray ray = playerCamera.ScreenPointToRay(mousePos);
 
-        bool isHit = Physics.Raycast(ray, out RaycastHit hitInfo);
+        bool isHit = Physics.Raycast(ray, out RaycastHit hitInfo, 100f, boardLayer);
 
         if (!isHit) return;
 
@@ -165,7 +166,8 @@ public class GameManager : MonoBehaviour
     private void OnDrawGizmos()
     {
         Vector3 mousePos = Input.mousePosition;
-        Gizmos.DrawRay(playerCamera.transform.position, playerCamera.ScreenPointToRay(mousePos).direction * 15f);
+        Ray ray = playerCamera.ScreenPointToRay(mousePos);
+        Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red);
     }
 
 }

@@ -56,8 +56,11 @@ public class PlacementState : IBuildingState
             selectedData.AddObjectAt(updatedGridPosition,
                 database.objectsData[selectedObjectIndex].Size,
                 database.objectsData[selectedObjectIndex].ID,
-                index);
+                index,
+                database.objectsData[selectedObjectIndex].boardEffect);
+
             previewSystem.UpdatePosition(grid.CellToWorld(gridPosition), false);
+
         }
 
         private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4986521223612290133}
   - component: {fileID: 1661491417013055721}
   - component: {fileID: 3671762992311224739}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: chess_pawn_black
   m_TagString: ChessPiece
   m_Icon: {fileID: 0}

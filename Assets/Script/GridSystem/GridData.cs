@@ -5,14 +5,15 @@ using UnityEngine;
 
 public class GridData
 {
-    Dictionary<Vector3Int, PlacementData> placedObjects = new();
+    public Dictionary<Vector3Int, PlacementData> placedObjects = new();
     public void AddObjectAt(Vector3Int gridPosition,
                             Vector2Int objectSize,
                             int ID,
-                            int placedObjectIndex)
+                            int placedObjectIndex,
+                            BoardEffect boardEffect)
     {
         List<Vector3Int> positionToOccupy = CalculatePositions(gridPosition, objectSize);
-        PlacementData data = new PlacementData(positionToOccupy, ID, placedObjectIndex);
+        PlacementData data = new PlacementData(positionToOccupy, ID, placedObjectIndex, boardEffect);
         foreach (var pos in positionToOccupy)
         {
             if (placedObjects.ContainsKey(pos))
@@ -23,7 +24,7 @@ public class GridData
         }
     }
 
-    private List<Vector3Int> CalculatePositions(Vector3Int gridPosition, Vector2Int objectSize)
+    public List<Vector3Int> CalculatePositions(Vector3Int gridPosition, Vector2Int objectSize)
     {
         List<Vector3Int> returnVal = new();
         for (int x = 0; x < objectSize.x; x++)
@@ -51,9 +52,15 @@ public class GridData
         return true;
     }
 
+    public Dictionary<Vector3Int, PlacementData> GetPlacedObjects()
+    {
+        return placedObjects;
+    }
+
     internal void RemoveObjectAt(Vector3Int gridPosition)
     {
-        foreach (var pos in placedObjects[gridPosition].occupiedPositions)
+
+        foreach (Vector3Int pos in placedObjects[gridPosition].occupiedPositions)
         {
             placedObjects.Remove(pos);
         }
@@ -70,15 +77,15 @@ public class GridData
 public class PlacementData
 {
     public List<Vector3Int> occupiedPositions;
-    private List<Vector3Int> positionToOccupy;
-
     public int ID { get; private set; }
     public int PlacedObjectIndex { get; private set; }
+    public BoardEffect BoardEffect { get; private set; }
 
-    public PlacementData(List<Vector3Int> positionToOccupy, int iD, int placedObjectIndex)
+    public PlacementData(List<Vector3Int> occupiedPositions, int iD, int placedObjectIndex, BoardEffect boardEffect)
     {
-        this.positionToOccupy = positionToOccupy;
+        this.occupiedPositions = occupiedPositions;
         ID = iD;
         PlacedObjectIndex = placedObjectIndex;
+        BoardEffect = boardEffect;
     }
 }

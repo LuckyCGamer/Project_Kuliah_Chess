@@ -35,7 +35,7 @@ public class HandView : MonoBehaviour
     {
         if (cards.Count == 0) yield break;
 
-        float cardSpacing = 1f / 10f;
+        float cardSpacing = 1f / 5f;
         float firstCardPosition = 0.5f - (cards.Count - 1) * cardSpacing / 2;
         Spline spline = splineContainer.Spline;
 
@@ -52,7 +52,7 @@ public class HandView : MonoBehaviour
             Quaternion rotation = Quaternion.LookRotation(forward, up) * Quaternion.Euler(0, -90, 0);
 
             // Linear z-offset so no card pops forward
-            Vector3 finalPosition = worldPosition + 0.01f * i * Vector3.back;
+            Vector3 finalPosition = worldPosition;
 
             cards[i].transform.DOMove(finalPosition, duration);
             cards[i].transform.DORotateQuaternion(rotation, duration);

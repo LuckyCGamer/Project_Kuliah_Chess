@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 
-public class RemovingState : MonoBehaviour
+public class RemovingState : IBuildingState
 {
     private int gameObjectIndex = -1;
     Grid grid;
@@ -28,20 +28,35 @@ public class RemovingState : MonoBehaviour
         previewSystem.StartShowingRemovePreview();
     }
 
+    public void EndState()
+    {
+        previewSystem.StopShowingPreview();
+    }
+
     public void OnAction(Vector3Int gridPosition)
     {
-        GridData selectedData = null;
+        GridData selectedData = spaceData;
         gameObjectIndex = selectedData.GetRepresentationIndex(gridPosition);
+    
         if(gameObjectIndex == -1)
             return;
+        Debug.Log(gameObjectIndex);
         selectedData.RemoveObjectAt(gridPosition);
         objectPlacer.RemoveObjectAt(gameObjectIndex);
-        Vector3 cellPosition = grid.CellToWorld(gridPosition);
-        previewSystem.UpdatePosition(cellPosition, false);
+        // Vector3 cellPosition = grid.CellToWorld(gridPosition);
+        // previewSystem.UpdatePosition(cellPosition, false);
     }
+
+    private bool CheckIfSelectionIsValid(Vector3Int gridPosition)
+    {
+        return !(spaceData.CanPlaceObjectAt(gridPosition, Vector2Int.one) &&
+            floorData.CanPlaceObjectAt(gridPosition, Vector2Int.one));
+    }
+
 
     public void UpdateState(Vector3Int gridPosition)
     {
-        previewSystem.UpdatePosition(grid.CellToWorld(gridPosition), false);
+        bool validity = CheckIfSelectionIsValid(gridPosition);
+        previewSystem.UpdatePosition(grid.CellToWorld(gridPosition), validity);
     }
 }
