@@ -2385,6 +2385,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.0096
       objectReference: {fileID: 0}
+    - target: {fileID: 3223179164448359891, guid: b793e2893dadfea468de976b4210fa84, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: 0c9b48fe17f72514abb5318034c6f43a, type: 2}
     - target: {fileID: 3290723495569591872, guid: b793e2893dadfea468de976b4210fa84, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -2409,6 +2413,10 @@ PrefabInstance:
       propertyPath: boardGrid
       value: 
       objectReference: {fileID: 931913936}
+    - target: {fileID: 7252738500946785218, guid: b793e2893dadfea468de976b4210fa84, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c828a3763aa342244acd9fe6c5d42a0e, type: 2}
     - target: {fileID: 7584583045623459041, guid: b793e2893dadfea468de976b4210fa84, type: 3}
       propertyPath: m_Layer
       value: 7
