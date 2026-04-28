@@ -3440,7 +3440,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Camera_1: {fileID: 1678176457}
   Camera_2: {fileID: 643516575}
-<<<<<<< Updated upstream
   Manager: 0
 --- !u!1 &1990225529
 GameObject:
@@ -3612,9 +3611,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: fdd849ee62571ee49bc8b996694bafc7, type: 3}
   m_PrefabInstance: {fileID: 2099045499}
   m_PrefabAsset: {fileID: 0}
-=======
   Manager: 1
->>>>>>> Stashed changes
 --- !u!222 &13208399567999695
 CanvasRenderer:
   m_ObjectHideFlags: 0
