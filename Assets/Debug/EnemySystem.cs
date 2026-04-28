@@ -5,18 +5,17 @@ public class EnemySystem : MonoBehaviour
 {
     void OnEnable()
     {
-        ActionSystem.AttachPerformer<EnemyTurnGA>(EnemyTurnPerformer);
+        ActionSystem.AttachPerformer<ReduceDurationGA>(ReduceDurationPerformer);
     }
 
     void OnDisable()
     {
-        ActionSystem.DetachPerformer<EnemyTurnGA>();
+        ActionSystem.DetachPerformer<ReduceDurationGA>();
     }
 
-    private IEnumerator EnemyTurnPerformer(EnemyTurnGA enemyTurnGA)
+    private IEnumerator ReduceDurationPerformer(ReduceDurationGA reduceDurationGA)
     {
-        Debug.Log("Enemy Turn");
+        Debug.Log("Reduce Duration effect on board");
         yield return new WaitForSeconds(2f);
-        Debug.Log("Enemy Turn End");
     }
 }

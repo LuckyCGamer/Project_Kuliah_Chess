@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     private void RayCastClickManager()
     {
         Vector3 mousePos = Input.mousePosition;
-        Ray ray = playerCamera.ScreenPointToRay(mousePos);
+        Ray ray = Camera.main.ScreenPointToRay(mousePos);
 
         bool isHit = Physics.Raycast(ray, out RaycastHit hitInfo, 100f, boardLayer);
 
@@ -166,7 +166,7 @@ public class GameManager : MonoBehaviour
     private void OnDrawGizmos()
     {
         Vector3 mousePos = Input.mousePosition;
-        Ray ray = playerCamera.ScreenPointToRay(mousePos);
+        Ray ray = Camera.main.ScreenPointToRay(mousePos);
         Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red);
     }
 

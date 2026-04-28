@@ -17,6 +17,7 @@ public class Knight : Piece
 
         for (int i = 0; i < movesX.Length; i++)
         {
+            Movement = 0;
             int dx = movesX[i];
             int dy = movesY[i];
             string nextPosition = chessBoardController.GetChessPosition(currentPosition, dx, dy);
@@ -26,6 +27,23 @@ public class Knight : Piece
                 GameObject pieceAtNextPosition = chessBoardController.GetChessPieceAtPosition(nextPosition);
                 if (pieceAtNextPosition == null || pieceAtNextPosition.GetComponent<Piece>().pieceColor != this.pieceColor)
                 {
+                    // check if movement under status effect
+                    BoardEffect effect = CurrentPieceBoardStatusEffect == null ? GetBoardStatusEffect(nextPosition) : CurrentPieceBoardStatusEffect;
+                    if (effect != null)
+                    {
+                        Movement++;
+                        //certain piece effect
+                        if (effect.cannotMove.Contains(pieceType))
+                        {
+                            break;
+                        }
+                        potentialMoves.Add(nextPosition);
+                        // Debug.Log($"the potential move is under effect : {Effect.name}");
+                        if (Movement == effect.canMove)
+                        {
+                            break;
+                        }
+                    }
                     potentialMoves.Add(nextPosition);
                 }
             }
@@ -45,12 +63,33 @@ public class Knight : Piece
 
         for (int i = 0; i < movesX.Length; i++)
         {
+            Movement = 0;
             int dx = movesX[i];
             int dy = movesY[i];
             string nextPosition = chessBoardController.GetChessPosition(currentPosition, dx, dy);
 
             if (nextPosition != null)
             {
+                    // check if movement under status effect
+                    BoardEffect effect = CurrentPieceBoardStatusEffect == null ? GetBoardStatusEffect(nextPosition) : CurrentPieceBoardStatusEffect;
+                    if (effect != null)
+                    {
+                        Movement++;
+                        //certain piece effect
+                        foreach(string piece in effect.cannotMove)
+                        {
+                            if(piece == pieceType)
+                            {
+                                break;
+                            }
+                        }
+                        attackedFields.Add(nextPosition);
+                        // Debug.Log($"the potential move is under effect : {Effect.name}");
+                        if (Movement == effect.canMove)
+                        {
+                            break;
+                        }
+                    }
                 attackedFields.Add(nextPosition);
             }
         }

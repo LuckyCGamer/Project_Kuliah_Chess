@@ -22,6 +22,7 @@ public class PlaceEffectOnBoardSystem : MonoBehaviour
     private IEnumerator AddEffectOnBoardPerformer(AddEffectOnBoardGA addEffectOnBoardGA)
     {
         chessBoardController.boardStatusEffect[addEffectOnBoardGA] = addEffectOnBoardGA.EffectDuration;
+        chessBoardController.UpdateAllChessPieceStatusEffect();
         yield return null;
     }
 }

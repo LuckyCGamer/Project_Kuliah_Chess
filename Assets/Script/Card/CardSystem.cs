@@ -6,22 +6,23 @@ using UnityEngine;
 
 public class CardSystem : Singleton<CardSystem>
 {
-    [SerializeField] private HandView handView;
+    [SerializeField] private HandView player1;
+    [SerializeField] private HandView player2;
     [SerializeField] private Transform drawPilePoint;
     [SerializeField] private Transform discardPilePoint;
     [SerializeField] private ChessBoardController chessBoardController;
     [SerializeField] private PlacementSystem placementSystem;
     private readonly List<Card> drawPile = new();
     private readonly List<Card> discardPile = new();
-    private readonly List<Card> hand = new();
+    private readonly List<Card> hand_player1 = new();
+    private readonly List<Card> hand_player2 = new();
 
     void OnEnable()
     {
         ActionSystem.AttachPerformer<DrawCardGA>(DrawCardsPerformer);
         ActionSystem.AttachPerformer<DiscardAllCardsGA>(DiscardAllCardsPerformer);
         ActionSystem.AttachPerformer<PlayCardGA>(PlayCardPerformer);
-        ActionSystem.SubscribeReaction<EnemyTurnGA>(EnemyTurnPreReaction, ReactionTiming.PRE);
-        ActionSystem.SubscribeReaction<EnemyTurnGA>(EnemyTurnPostReaction, ReactionTiming.POST);
+        ActionSystem.SubscribeReaction<ReduceDurationGA>(DurationReducePreReaction, ReactionTiming.PRE);
     }
 
     void OnDisable()
@@ -29,8 +30,7 @@ public class CardSystem : Singleton<CardSystem>
         ActionSystem.DetachPerformer<DrawCardGA>();
         ActionSystem.DetachPerformer<DiscardAllCardsGA>();
         ActionSystem.DetachPerformer<PlayCardGA>();
-        ActionSystem.UnSubscribeReaction<EnemyTurnGA>(EnemyTurnPreReaction, ReactionTiming.PRE);
-        ActionSystem.UnSubscribeReaction<EnemyTurnGA>(EnemyTurnPostReaction, ReactionTiming.POST);
+        ActionSystem.UnSubscribeReaction<ReduceDurationGA>(DurationReducePreReaction, ReactionTiming.PRE);
     }
 
     // Publics
@@ -56,19 +56,19 @@ public class CardSystem : Singleton<CardSystem>
 
     private IEnumerator DiscardAllCardsPerformer(DiscardAllCardsGA discardAllCardsGA)
     {
-        foreach (var card in hand)
+        foreach (var card in hand_player1)
         {
             discardPile.Add(card);
-            CardView cardView = handView.RemoveCard(card);
+            CardView cardView = player1.RemoveCard(card);
             yield return DiscardCard(cardView);
         }
-        hand.Clear();
+        hand_player1.Clear();
     }
 
     private IEnumerator PlayCardPerformer(PlayCardGA playCardGA)
     {
-        hand.Remove(playCardGA.Card);
-        CardView cardView = handView.RemoveCard(playCardGA.Card);
+        hand_player1.Remove(playCardGA.Card);
+        CardView cardView = player1.RemoveCard(playCardGA.Card);
         yield return DiscardCard(cardView);
 
         // Debug.Log(playCardGA.targetGrid);
@@ -81,7 +81,7 @@ public class CardSystem : Singleton<CardSystem>
     }
 
     // Reactions
-    private void EnemyTurnPreReaction(EnemyTurnGA enemyTurnGA)
+    private void DurationReducePreReaction(ReduceDurationGA reduceDurationGA)
     {
         // Debug.Log("Reduce duration board effect -1");
         List<AddEffectOnBoardGA> boardEffects = new(chessBoardController.boardStatusEffect.Keys);
@@ -97,24 +97,14 @@ public class CardSystem : Singleton<CardSystem>
             }
         }
     }
-    private void EnemyTurnPostReaction(EnemyTurnGA enemyTurnGA)
-    {
-        
-    }
 
     //Helper
     private IEnumerator DrawCard()
     {
         Card card = drawPile.Draw();
-        hand.Add(card);
+        hand_player1.Add(card);
         CardView cardView = CardViewCreator.Instance.CreateCardView(card, drawPilePoint.position, drawPilePoint.rotation);
-        yield return handView.AddCard(cardView);
-    }
-
-    private void RefillDeck()
-    {
-        drawPile.AddRange(discardPile);
-        discardPile.Clear();
+        yield return player1.AddCard(cardView);
     }
 
     private IEnumerator DiscardCard(CardView cardView)

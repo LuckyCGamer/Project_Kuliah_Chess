@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -18,9 +19,9 @@ public class PlacementSystem : MonoBehaviour
 
     private Vector3Int LastDetectedPosition = Vector3Int.zero;
     [SerializeField] private ObjectPlacer objectPlacer;
-    [SerializeField] private 
-    
-    IBuildingState buildingState;
+    [SerializeField] private IBuildingState buildingState;
+    [SerializeField] private GameObject CancelPlacement;
+    [SerializeField] private GameObject GameManager;
 
 
     private void Start()
@@ -43,6 +44,7 @@ public class PlacementSystem : MonoBehaviour
                                             objectPlacer);
         inputManager.OnClicked += PlaceStructure;
         inputManager.OnExit += StopPlacement;
+        CancelPlacement.SetActive(true);
     }
 
     private void PlaceStructure()
@@ -90,6 +92,7 @@ public class PlacementSystem : MonoBehaviour
         inputManager.OnExit -= StopPlacement;
         LastDetectedPosition = Vector3Int.zero;
         buildingState = null;
+        CancelPlacement.SetActive(false);
     }
 
     private void Update()

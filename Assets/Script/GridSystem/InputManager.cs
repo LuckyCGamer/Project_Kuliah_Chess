@@ -15,7 +15,6 @@ public class InputManager : MonoBehaviour
     private Vector3 originalPosition;
     private Quaternion originalRotation;
     private GameObject cardView;
-
     public event Action OnClicked, OnExit;
 
     private void Update()

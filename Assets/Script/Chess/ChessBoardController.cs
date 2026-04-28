@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -17,7 +18,6 @@ public class ChessBoardController : MonoBehaviour
     public string lastMovedPieceEndPosition;
     public Dictionary<string, bool> whiteCheckMap = new();
     public Dictionary<string, bool> blackCheckMap = new();
-
     // BoardStats Effect Variable
     public Dictionary<AddEffectOnBoardGA, int> boardStatusEffect = new();
     public GridData Temp = new();
@@ -25,6 +25,8 @@ public class ChessBoardController : MonoBehaviour
     private UIManagerChess UIManagerChess;
     [SerializeField] public Grid boardGrid;
     [SerializeField] PlacementSystem placementSystem;
+    [SerializeField] GameObject Turn;
+    [SerializeField] SwitchCamera switchCamera;
 
     public void Start()
     {
@@ -34,17 +36,33 @@ public class ChessBoardController : MonoBehaviour
     public void Initialize()
     {
         isWhiteTurn = true;
+        ChangeTurnText();
         ResetCheckMap();
+        UpdatePiecesOnBoard();
     }
 
     public void EndTurn()
     {
         // Debug.Log("End Turn");
-        EnemyTurnGA enemyTurnGA = new();
-        ActionSystem.Instance.Perform(enemyTurnGA);
+        ReduceDurationGA reduceDurationGA = new();
+        ActionSystem.Instance.Perform(reduceDurationGA);
         isWhiteTurn = !isWhiteTurn;
+        ChangeTurnText();
         CheckGameOver();
-        UpdateAllChessPieceStatusEffect();
+        switchCamera.ManageCamera();
+    }
+
+    public void ChangeTurnText()
+    {
+        // Debug.Log(Turn.GetComponent<TextMeshProUGUI>().text);
+        if (isWhiteTurn)
+        {
+            Turn.GetComponent<TextMeshProUGUI>().text = "White Turn";
+        }
+        else
+        {
+            Turn.GetComponent<TextMeshProUGUI>().text = "Black Turn";
+        }
     }
 
     public void UpdateAllChessPieceStatusEffect()
