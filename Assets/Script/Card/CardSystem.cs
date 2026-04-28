@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class CardSystem : Singleton<CardSystem>
@@ -50,7 +51,7 @@ public class CardSystem : Singleton<CardSystem>
         int notDrawnAmount = drawCardsGA.Amount - actualAmount;
         for (int i = 0; i < actualAmount; i++)
         {
-            yield return DrawCard();
+            yield return DrawCard(drawCardsGA.Player);
         }
     }
 
@@ -99,12 +100,35 @@ public class CardSystem : Singleton<CardSystem>
     }
 
     //Helper
-    private IEnumerator DrawCard()
+    private IEnumerator DrawCard(string player)
     {
-        Card card = drawPile.Draw();
-        hand_player1.Add(card);
-        CardView cardView = CardViewCreator.Instance.CreateCardView(card, drawPilePoint.position, drawPilePoint.rotation);
-        yield return player1.AddCard(cardView);
+        
+        if(player == "player1")
+        {
+            Card card = drawPile.Draw();
+            hand_player1.Add(card);
+            CardView cardView = CardViewCreator.Instance.CreateCardView(card, drawPilePoint.position, drawPilePoint.rotation, 1);
+            yield return player1.AddCard(cardView);
+        }
+        else if(player == "player2")
+        {
+            Card card = drawPile.Draw();
+            hand_player2.Add(card);
+            CardView cardView = CardViewCreator.Instance.CreateCardView(card, drawPilePoint.position, drawPilePoint.rotation, 2);
+            yield return player2.AddCard(cardView);
+        }
+        else if(player == "both")
+        {
+            Card card_1 = drawPile.Draw();
+            hand_player1.Add(card_1);
+            CardView cardView_1 = CardViewCreator.Instance.CreateCardView(card_1, drawPilePoint.position, drawPilePoint.rotation, 1);
+            yield return player1.AddCard(cardView_1);
+
+            Card card_2 = drawPile.Draw();
+            hand_player2.Add(card_2);
+            CardView cardView_player2 = CardViewCreator.Instance.CreateCardView(card_2, drawPilePoint.position, drawPilePoint.rotation, 2);
+            yield return player2.AddCard(cardView_player2);
+        }
     }
 
     private IEnumerator DiscardCard(CardView cardView)

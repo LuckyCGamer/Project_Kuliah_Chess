@@ -7,19 +7,17 @@ public class SwitchCamera : MonoBehaviour
     
     public GameObject Camera_1;
     public GameObject Camera_2;
-    public int Manager;
+    public int Manager = 1;
 
     public void ManageCamera()
     {
-        if(Manager == 0)
+        if(Manager == 2)
         {
             Cam_2();
-            Manager = 1;
         }
         else
         {
             Cam_1();
-            Manager = 0;
         }
     }
 
@@ -33,6 +31,12 @@ public class SwitchCamera : MonoBehaviour
     {
         Camera_1.SetActive(false);
         Camera_2.SetActive(true);
+    }
+    
+    public void switchCamera(int player)
+    {
+        Manager = player;
+        ManageCamera();
     }
 
 }

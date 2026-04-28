@@ -5,9 +5,11 @@ using UnityEngine;
 public class DrawCardGA : GameAction
 {
     public int Amount { get; private set;}
+    public string Player { get; private set;}
 
-    public DrawCardGA (int amount)
+    public DrawCardGA (int amount, string player)
     {
         Amount = amount;
+        Player = player;
     }
 }

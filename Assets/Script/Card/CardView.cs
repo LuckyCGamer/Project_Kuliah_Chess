@@ -12,19 +12,21 @@ public class CardView : MonoBehaviour
     [SerializeField] private SpriteRenderer imageSR;
     [SerializeField] private GameObject wrapper;
     [SerializeField] private LayerMask dropLayer;
+    public int playerHand = 0;
     public Card Card { get; private set;}
     private Vector3 dragStartPosition;
     private Quaternion dragStartRotation;
     private PlacementSystem placementSystem;
     private InputManager InputManager;
     private DropArea dropArea;
+    private SwitchCamera SwitchCamera;
 
 
     public void Awake()
     {
         placementSystem = FindFirstObjectByType<PlacementSystem>();
         InputManager = FindFirstObjectByType<InputManager>();
-        
+        SwitchCamera = FindAnyObjectByType<SwitchCamera>();
     }
 
     public void Start()
@@ -32,31 +34,35 @@ public class CardView : MonoBehaviour
         dropArea = FindFirstObjectByType<DropArea>();
     }
 
-    public void Setup (Card card)
+    public void Setup (Card card, int PlayerHand)
     {
         Card = card;
         title.text = card.Title;
         description.text = card.Description;
         imageSR.sprite = card.Image;
+        playerHand = PlayerHand;
     }
 
     void OnMouseEnter()
     {
         float zoffset = 0.05f;
         if(!Interactions.Instance.PlayerCanHover()) return;
+        if(!Interactions.Instance.IsPlayerCard(playerHand)) return;
 
         wrapper.SetActive(false);
         Vector3 pos = new(transform.position.x, 0.5f, transform.position.z + zoffset);
         
         // Hover card rotation
+        Quaternion cardRotation = transform.rotation;
         Quaternion rotation = Quaternion.Euler(45, 0, 0);
 
-        CardViewHoverSystem.Instance.Show(Card, pos, rotation);
+        CardViewHoverSystem.Instance.Show(Card, pos, cardRotation, playerHand);
     }
 
     void OnMouseExit()
     {
         if(!Interactions.Instance.PlayerCanHover()) return;
+        if(!Interactions.Instance.IsPlayerCard(playerHand)) return;
         CardViewHoverSystem.Instance.Hide();
         wrapper.SetActive(true);
     }
@@ -64,6 +70,7 @@ public class CardView : MonoBehaviour
     void OnMouseDown()
     {
         if(!Interactions.Instance.PlayerCanInteract()) return;
+        if(!Interactions.Instance.IsPlayerCard(playerHand)) return;
         Interactions.Instance.PlayerIsDragging = true;
         wrapper.SetActive(true);
         CardViewHoverSystem.Instance.Hide();
@@ -78,12 +85,14 @@ public class CardView : MonoBehaviour
     void OnMouseDrag()
     {
         if(!Interactions.Instance.PlayerCanInteract()) return;
+        if(!Interactions.Instance.IsPlayerCard(playerHand)) return;
         transform.position = MouseUtil.GetMousePositionInWorldSpace(transform.position);
     }
 
     void OnMouseUp()
     {
         if(!Interactions.Instance.PlayerCanInteract()) return;
+        if(!Interactions.Instance.IsPlayerCard(playerHand)) return;
         
         Vector3 mousePos = Input.mousePosition;
         Ray ray = Camera.main.ScreenPointToRay(mousePos);

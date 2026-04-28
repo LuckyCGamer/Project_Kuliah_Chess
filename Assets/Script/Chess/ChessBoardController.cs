@@ -49,7 +49,19 @@ public class ChessBoardController : MonoBehaviour
         isWhiteTurn = !isWhiteTurn;
         ChangeTurnText();
         CheckGameOver();
-        switchCamera.ManageCamera();
+        SwitchOtherPlayer();
+    }
+
+    public void SwitchOtherPlayer()
+    {
+        if(switchCamera.Manager == 1)
+        {
+            switchCamera.switchCamera(2);
+        }
+        else
+        {
+            switchCamera.switchCamera(1);
+        }
     }
 
     public void ChangeTurnText()

@@ -6,6 +6,7 @@ public class Interactions : Singleton<Interactions>
 {
 
     public bool PlayerIsDragging { get; set; } = false;
+    [SerializeField] SwitchCamera switchCamera;
     public bool PlayerCanInteract()
     {
         if (!ActionSystem.Instance.IsPerforming) return true;
@@ -16,6 +17,12 @@ public class Interactions : Singleton<Interactions>
     {
         if(PlayerIsDragging) return false;
         return true;
+    }
+
+    public bool IsPlayerCard(int playerHand)
+    {
+        if(switchCamera.Manager == playerHand) return true;
+        return false;
     }
 
 }

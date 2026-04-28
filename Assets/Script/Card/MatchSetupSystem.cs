@@ -10,8 +10,8 @@ public class MatchSetupSystem : MonoBehaviour
     private void Start()
     {
         CardSystem.Instance.Setup(deckData);
-        DrawCardGA drawCardGA = new(5);
-        ActionSystem.Instance.Perform(drawCardGA);
+        DrawCardGA drawCardGA_player1 = new(5, "both");
+        ActionSystem.Instance.Perform(drawCardGA_player1);
     }
 
 }
