@@ -64,6 +64,11 @@ public class ChessBoardController : MonoBehaviour
         }
     }
 
+    public void ChangeCardRotation()
+    {
+        
+    }
+
     public void ChangeTurnText()
     {
         // Debug.Log(Turn.GetComponent<TextMeshProUGUI>().text);
