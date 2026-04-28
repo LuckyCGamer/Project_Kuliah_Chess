@@ -50,7 +50,7 @@ public class CardView : MonoBehaviour
         if(!Interactions.Instance.IsPlayerCard(playerHand)) return;
 
         wrapper.SetActive(false);
-        Vector3 pos = new(transform.position.x, 0.5f, transform.position.z + zoffset);
+        Vector3 pos = new(transform.position.x, transform.position.y + 0.3f, transform.position.z + zoffset);
         
         // Hover card rotation
         Quaternion cardRotation = transform.rotation;
@@ -78,7 +78,6 @@ public class CardView : MonoBehaviour
         dragStartPosition = transform.position;
         dragStartRotation = transform.rotation;
 
-        transform.rotation = Quaternion.Euler(45,0,0);
         transform.position = MouseUtil.GetMousePositionInWorldSpace(transform.position);
     }
 

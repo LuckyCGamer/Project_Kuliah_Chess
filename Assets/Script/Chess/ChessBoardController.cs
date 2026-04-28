@@ -64,11 +64,6 @@ public class ChessBoardController : MonoBehaviour
         }
     }
 
-    public void ChangeCardRotation()
-    {
-        
-    }
-
     public void ChangeTurnText()
     {
         // Debug.Log(Turn.GetComponent<TextMeshProUGUI>().text);
@@ -84,6 +79,10 @@ public class ChessBoardController : MonoBehaviour
 
     public void UpdateAllChessPieceStatusEffect()
     {
+        // foreach(var position in placementSystem.spaceData.placedObjects)
+        // {
+        //     Debug.Log($"{position.Key} : {position.Value}");
+        // }
         foreach(Piece piece in piecesOnBoard)
         {
             piece.UpdateStatusEffect();

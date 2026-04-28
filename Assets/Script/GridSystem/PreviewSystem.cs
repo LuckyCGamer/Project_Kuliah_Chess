@@ -89,7 +89,7 @@ public class PreviewSystem : MonoBehaviour
         cellIndicator.transform.position = position;
         cellIndicator.transform.position = new Vector3(
             cellIndicator.transform.position.x, 
-            cellIndicator.transform.position.y - 1f, 
+            cellIndicator.transform.position.y, 
             cellIndicator.transform.position.z
         );
     }
@@ -98,7 +98,7 @@ public class PreviewSystem : MonoBehaviour
     {
         previewObject.transform.position = new Vector3(
             position.x, 
-            position.y + previewYOffset - 1f, 
+            position.y + previewYOffset, 
             position.z);  
     }
 

@@ -146,7 +146,6 @@ public abstract class Piece : MonoBehaviour
 
     public Vector3Int TranslatePositionToCell(string position)
     {
-        // Debug.Log(chessBoardController.boardGridLocation[position]);
         Vector3Int Vector3Location = chessBoardController.boardGridLocation[position];
         return Vector3Location;
     }

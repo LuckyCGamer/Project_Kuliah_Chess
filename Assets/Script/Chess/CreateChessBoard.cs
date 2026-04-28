@@ -37,14 +37,14 @@ public class CreateChessBoard : MonoBehaviour
                 Renderer planeRenderer = newPlane.GetComponent<Renderer>();
 
                 newPlane.transform.position = new Vector3(
-                    BoardPlane.transform.position.x - (BoardPlane.transform.localScale.x / 2) + planeRenderer.bounds.size.x / 2 + (i * planeRenderer.bounds.size.x), 
+                    BoardPlane.transform.position.x + (BoardPlane.transform.localScale.x / 2) - planeRenderer.bounds.size.x / 2 - (j * planeRenderer.bounds.size.x), 
                     BoardPlane.transform.position.y,
-                    BoardPlane.transform.position.z + (BoardPlane.transform.localScale.z / 2) - planeRenderer.bounds.size.z / 2 - (j * planeRenderer.bounds.size.z)
+                    BoardPlane.transform.position.z + (BoardPlane.transform.localScale.x / 2) - planeRenderer.bounds.size.z / 2 - (i * planeRenderer.bounds.size.z)
                 );
                 newPlane.name = $"{chessPieces[j]}{i + 1}";
                 newPlane.tag = "PositionBoard";
                 chessBoardController.AddBoardData($"{chessPieces[j]}{i + 1}", null);
-                chessBoardController.boardGridLocation.Add($"{chessPieces[j]}{i + 1}", chessBoardController.boardGrid.WorldToCell(newPlane.transform.position) - new Vector3Int(0,0,1));
+                chessBoardController.boardGridLocation.Add($"{chessPieces[j]}{i + 1}", chessBoardController.boardGrid.WorldToCell(newPlane.transform.position));
                 // Debug.Log(chessBoardController.boardGridLocation[$"{chessPieces[j]}{i + 1}"]);
             }
         }

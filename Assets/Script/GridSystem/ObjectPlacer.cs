@@ -14,7 +14,7 @@ public class ObjectPlacer : MonoBehaviour
         newObject.transform.position = position;
         newObject.transform.position = new Vector3(
             newObject.transform.position.x, 
-            newObject.transform.position.y - 1f, 
+            newObject.transform.position.y, 
             newObject.transform.position.z
         );
         placedGameObjects.Add(newObject);
