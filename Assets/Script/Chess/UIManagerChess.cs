@@ -49,7 +49,6 @@ public class UIManagerChess : MonoBehaviour
         if (prefabIndex != -1)
         {
             string pawnPosition = promotingPawn.currentPosition;
-
             // Instantiate dan simpan
             createChessBoard.InstantiatePiece(
                 createChessBoard.PiecePrefabs[prefabIndex], 

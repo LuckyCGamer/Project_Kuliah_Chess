@@ -54,7 +54,6 @@ public class CreateChessBoard : MonoBehaviour
     {
 
         normalChessPiecePosition();
-
     }
 
     public void normalChessPiecePosition()
