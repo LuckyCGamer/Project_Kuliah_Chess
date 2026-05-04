@@ -13,6 +13,7 @@ public class CardSystem : Singleton<CardSystem>
     [SerializeField] private Transform discardPilePoint;
     [SerializeField] private ChessBoardController chessBoardController;
     [SerializeField] private PlacementSystem placementSystem;
+    [SerializeField] private SwitchCamera switchCamera;
     private readonly List<Card> drawPile = new();
     private readonly List<Card> discardPile = new();
     private readonly List<Card> hand_player1 = new();
@@ -68,9 +69,19 @@ public class CardSystem : Singleton<CardSystem>
 
     private IEnumerator PlayCardPerformer(PlayCardGA playCardGA)
     {
-        hand_player1.Remove(playCardGA.Card);
-        CardView cardView = player1.RemoveCard(playCardGA.Card);
-        yield return DiscardCard(cardView);
+
+        if (switchCamera.Manager == 1)
+        {
+            hand_player1.Remove(playCardGA.Card);
+            CardView cardView = player1.RemoveCard(playCardGA.Card);
+            yield return DiscardCard(cardView);
+        }
+        else
+        {
+            hand_player2.Remove(playCardGA.Card);
+            CardView cardView = player2.RemoveCard(playCardGA.Card); 
+            yield return DiscardCard(cardView);        
+        }
 
         // Debug.Log(playCardGA.targetGrid);
         // Perform effects

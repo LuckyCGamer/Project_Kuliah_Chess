@@ -16,12 +16,12 @@ public class PlacementSystem : MonoBehaviour
 
     [SerializeField] private GameObject gridVisualization;
     [SerializeField] private PreviewSystem previewSystem;
-
     private Vector3Int LastDetectedPosition = Vector3Int.zero;
     [SerializeField] private ObjectPlacer objectPlacer;
     [SerializeField] private IBuildingState buildingState;
     [SerializeField] private GameObject CancelPlacement;
     [SerializeField] private GameObject GameManager;
+    public bool isPlacing = false;
 
 
     private void Start()
@@ -46,6 +46,7 @@ public class PlacementSystem : MonoBehaviour
         inputManager.OnClicked += PlaceStructure;
         inputManager.OnExit += StopPlacement;
         CancelPlacement.SetActive(true);
+        isPlacing = true;
     }
 
     private void PlaceStructure()
@@ -86,6 +87,7 @@ public class PlacementSystem : MonoBehaviour
         buildingState = null;
         CancelPlacement.SetActive(false);
         GameManager.SetActive(true);
+        isPlacing = false;
     }
 
     private void Update()

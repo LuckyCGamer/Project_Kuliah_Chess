@@ -4,16 +4,14 @@ using UnityEngine;
 
 public static class MouseUtil
 {
-    
-    private static Camera camera = Camera.main;
 
     public static Vector3 GetMousePositionInWorldSpace(Vector3 position)
     {
         Plane dragPlane = new(
-            camera.transform.forward,
+            Camera.main.transform.forward,
             position
         );
-        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if(dragPlane.Raycast(ray, out float distance))
         {
             return ray.GetPoint(distance);

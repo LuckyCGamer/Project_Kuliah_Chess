@@ -83,11 +83,12 @@ public class PlacementState : IBuildingState
         private Vector3Int CheckBoardEdge(Vector3Int gridPosition)
         {
             Vector3Int offsetPosition = new Vector3Int(0,0,0);
-            if (gridPosition.x == -4)
+            // Debug.Log(gridPosition);
+            if (gridPosition.x == 45)
             {
                 offsetPosition.x += 1;
             }
-            if(gridPosition.y == 7){
+            if(gridPosition.y == -85){
                 offsetPosition.y += 1;
             }
             return gridPosition + offsetPosition;
