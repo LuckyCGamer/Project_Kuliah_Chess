@@ -20,11 +20,10 @@ public class King : Piece
                 legalMoves.Add(chessBoardController.GetChessPosition(currentPosition, -2, 0));
             }
         }
-
         return legalMoves;
     }
 
-    protected override List<string> GetPotentialMoves()
+    public override List<string> GetPotentialMoves()
     {
         List<string> potentialMoves = new List<string>();
         string currentPosition = this.currentPosition;
@@ -44,17 +43,20 @@ public class King : Piece
                 GameObject pieceAtNextPosition = chessBoardController.GetChessPieceAtPosition(nextPosition);
                 if (pieceAtNextPosition == null || pieceAtNextPosition.GetComponent<Piece>().pieceColor != this.pieceColor)
                 {
+                        BoardEffect attackPieceEffect = pieceAtNextPosition.GetComponent<Piece>().CurrentPieceBoardStatusEffect;
+                        if (attackPieceEffect.isInvurnerable)
+                        {
+                            continue;
+                        }
                     potentialMoves.Add(nextPosition);
                 }
             }
         }
-
         return potentialMoves;
     }
 
     public override void MoveToPosition(string newPosition)
     {
-
         string currentPosition = this.currentPosition;
 
         if (HasMoved == 0 && Mathf.Abs(newPosition[1] - currentPosition[1]) == 2)
@@ -79,7 +81,6 @@ public class King : Piece
                 }
             }
         }
-
         base.MoveToPosition(newPosition);
     }
 

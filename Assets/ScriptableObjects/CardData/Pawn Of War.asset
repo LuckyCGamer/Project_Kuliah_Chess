@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e8a79221ab5290458056787d6e91a5b, type: 3}
+  m_Name: Pawn Of War
+  m_EditorClassIdentifier: 
+  <Description>k__BackingField: Pawn bisa menangkap semua arah
+  <Title>k__BackingField: Pawn Of War
+  <Image>k__BackingField: {fileID: 21300000, guid: 7fedac11a840ae1448e216f415710288, type: 3}
+  <IsPlacement>k__BackingField: 0
+  <ID>k__BackingField: 0
+  <Effects>k__BackingField:
+  - rid: 1019459974957891591
+  references:
+    version: 2
+    RefIds:
+    - rid: 1019459974957891591
+      type: {class: PawnOfWarEffect, ns: , asm: Assembly-CSharp}
+      data:
+        duration: 1

@@ -7,17 +7,17 @@ using UnityEngine;
 
 public class CardSystem : Singleton<CardSystem>
 {
-    [SerializeField] private HandView player1;
-    [SerializeField] private HandView player2;
+    [SerializeField] public HandView player1;
+    [SerializeField] public HandView player2;
     [SerializeField] private Transform drawPilePoint;
     [SerializeField] private Transform discardPilePoint;
     [SerializeField] private ChessBoardController chessBoardController;
     [SerializeField] private PlacementSystem placementSystem;
     [SerializeField] private SwitchCamera switchCamera;
-    private readonly List<Card> drawPile = new();
+    public readonly List<Card> drawPile = new();
     private readonly List<Card> discardPile = new();
-    private readonly List<Card> hand_player1 = new();
-    private readonly List<Card> hand_player2 = new();
+    public List<Card> hand_player1 = new();
+    public List<Card> hand_player2 = new();
 
     void OnEnable()
     {
@@ -45,15 +45,71 @@ public class CardSystem : Singleton<CardSystem>
         }
     }
 
+    public void ShuffleCard()
+    {
+        // Debug.Log("shuffle card");
+		int count = drawPile.Count;
+		int last = count - 1;
+		for (int i = 0; i < last; ++i) {
+			int r = UnityEngine.Random.Range(i, count);
+			Card tmp = drawPile[i];
+			drawPile[i] = drawPile[r];
+			drawPile[r] = tmp;
+		}
+    }
+
     // Performers
     private IEnumerator DrawCardsPerformer(DrawCardGA drawCardsGA)
     {
         int actualAmount = Mathf.Min(drawCardsGA.Amount, drawPile.Count);
         int notDrawnAmount = drawCardsGA.Amount - actualAmount;
-        for (int i = 0; i < actualAmount; i++)
+        if(drawCardsGA.Player == "both")
         {
-            yield return DrawCard(drawCardsGA.Player);
+            for (int i = 0; i < actualAmount; i++)
+            {
+                if(drawPile.Count == 0)
+                {
+                    // Debug.Log("cannot draw card");
+                    break;
+                }
+                yield return DrawCard("player1");
+
+                if(drawPile.Count == 0)
+                {
+                    // Debug.Log("cannot draw card");
+                    break;
+                }
+                yield return DrawCard("player2");
+            }
         }
+        else if (drawCardsGA.Player == "player1")
+        {
+            for (int i = 0; i < actualAmount; i++)
+            {
+                Debug.Log(drawPile.Count);
+                if(drawPile.Count == 0)
+                {
+                    // Debug.Log("cannot draw card");
+                    break;
+                }
+                yield return DrawCard("player1");
+            }
+        }
+        else
+        {
+            for (int i = 0; i < actualAmount; i++)
+            {
+                Debug.Log(drawPile.Count);
+                if(drawPile.Count == 0)
+                {
+                    // Debug.Log("cannot draw card");
+                    break;
+                }
+                yield return DrawCard("player2");
+            }           
+        }
+        
+
     }
 
     private IEnumerator DiscardAllCardsPerformer(DiscardAllCardsGA discardAllCardsGA)
@@ -87,8 +143,22 @@ public class CardSystem : Singleton<CardSystem>
         // Perform effects
         foreach (Effect effect in playCardGA.Card.Effects)
         {
-            PerformEffectGA performEffectGA = new(effect, playCardGA.targetGrid);
-            ActionSystem.Instance.AddReaction(performEffectGA);
+            if(playCardGA.targetGrid != Vector3Int.zero)
+            {
+                PerformEffectGA performEffectGA = new(effect, playCardGA.targetGrid);
+                ActionSystem.Instance.AddReaction(performEffectGA);
+            }
+            else if (playCardGA.SelectedPiece != null)
+            {
+                PerformEffectGA performEffectGA = new(effect, playCardGA.SelectedPiece);
+                ActionSystem.Instance.AddReaction(performEffectGA);
+            }
+            else
+            {
+                PerformEffectGA performEffectGA = new(effect);
+                ActionSystem.Instance.AddReaction(performEffectGA);               
+            }
+
         }
     }
 
@@ -97,7 +167,6 @@ public class CardSystem : Singleton<CardSystem>
     {
         // Debug.Log("Reduce duration board effect -1");
         List<AddEffectOnBoardGA> boardEffects = new(chessBoardController.boardStatusEffect.Keys);
-
         foreach(AddEffectOnBoardGA boardEffect in boardEffects)
         {
             chessBoardController.boardStatusEffect[boardEffect]--;
@@ -108,6 +177,25 @@ public class CardSystem : Singleton<CardSystem>
                 chessBoardController.boardStatusEffect.Remove(boardEffect);
             }
         }
+
+        List<PawnOfWarCardGA> pawnOfWars = new(chessBoardController.pawnOfWar.Keys);
+        foreach(PawnOfWarCardGA pawnOfWarCard in pawnOfWars)
+        {
+            chessBoardController.pawnOfWar[pawnOfWarCard]--;
+            if (chessBoardController.pawnOfWar[pawnOfWarCard] <= 0)
+            {
+                foreach (Piece piece in ChessBoardController.Instance.piecesOnBoard)
+                {
+                    if (piece.IsWhite() != ChessBoardController.Instance.isWhiteTurn && piece is Pawn)
+                    {
+                        piece.additionalPotentialMove.Clear();
+                    }
+                }
+                
+            }
+        }
+
+
     }
 
     //Helper
@@ -128,24 +216,20 @@ public class CardSystem : Singleton<CardSystem>
             CardView cardView = CardViewCreator.Instance.CreateCardView(card, drawPilePoint.position, drawPilePoint.rotation, 2);
             yield return player2.AddCard(cardView);
         }
-        else if(player == "both")
-        {
-            Card card_1 = drawPile.Draw();
-            hand_player1.Add(card_1);
-            CardView cardView_1 = CardViewCreator.Instance.CreateCardView(card_1, drawPilePoint.position, drawPilePoint.rotation, 1);
-            yield return player1.AddCard(cardView_1);
-
-            Card card_2 = drawPile.Draw();
-            hand_player2.Add(card_2);
-            CardView cardView_player2 = CardViewCreator.Instance.CreateCardView(card_2, drawPilePoint.position, drawPilePoint.rotation, 2);
-            yield return player2.AddCard(cardView_player2);
-        }
     }
 
-    private IEnumerator DiscardCard(CardView cardView)
+    public IEnumerator DiscardCard(CardView cardView)
     {
         cardView.transform.DOScale(Vector3.zero, 0.15f);
         Tween tween = cardView.transform.DOMove(discardPilePoint.position, 0.15f);
+        yield return tween.WaitForCompletion();
+        Destroy(cardView.gameObject);
+    }
+
+    public IEnumerator PutCardBackInDeck(CardView cardView)
+    {
+        cardView.transform.DOScale(Vector3.zero, 0.15f);
+        Tween tween = cardView.transform.DOMove(drawPilePoint.position, 0.15f);
         yield return tween.WaitForCompletion();
         Destroy(cardView.gameObject);
     }

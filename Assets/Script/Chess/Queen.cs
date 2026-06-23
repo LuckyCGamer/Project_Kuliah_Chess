@@ -6,7 +6,7 @@ using UnityEngine;
 public class Queen : Piece
 {
 
-    protected override List<string> GetPotentialMoves()
+    public override List<string> GetPotentialMoves()
     {
         List<string> potentialMoves = new List<String>();
         string currentPosition = this.currentPosition;
@@ -50,6 +50,14 @@ public class Queen : Piece
                 {
                     if (pieceAtNextPosition.GetComponent<Piece>().pieceColor != this.pieceColor)
                     {
+                        BoardEffect attackPieceEffect = pieceAtNextPosition.GetComponent<Piece>().CurrentPieceBoardStatusEffect;
+                        if(attackPieceEffect != null)
+                        {
+                            if (attackPieceEffect.isInvurnerable)
+                            {
+                                break;
+                            }
+                        }
                         potentialMoves.Add(nextPosition);
                     }
                     break; // Stop searching in this direction after encountering a piece
@@ -99,6 +107,7 @@ public class Queen : Piece
                 GameObject pieceAtNextPosition = chessBoardController.GetChessPieceAtPosition(nextPosition);
                 if (pieceAtNextPosition != null)
                 {
+
                     break; // Stop searching in this direction after encountering a piece
                 }
                 step++;

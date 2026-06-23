@@ -319,6 +319,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 690706490}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &121395243
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 121395244}
+  - component: {fileID: 121395245}
+  m_Layer: 0
+  m_Name: InputSelectPiece
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &121395244
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121395243}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 797942222}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &121395245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121395243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fb8627d7d75a9949a9ffe83f7cd49af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placementLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &190689218
 GameObject:
   m_ObjectHideFlags: 0
@@ -364,17 +411,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deckData:
-  - {fileID: 11400000, guid: d84fbfe79cd1d0448b88996937d2f855, type: 2}
-  - {fileID: 11400000, guid: d84fbfe79cd1d0448b88996937d2f855, type: 2}
-  - {fileID: 11400000, guid: d84fbfe79cd1d0448b88996937d2f855, type: 2}
-  - {fileID: 11400000, guid: d84fbfe79cd1d0448b88996937d2f855, type: 2}
-  - {fileID: 11400000, guid: d84fbfe79cd1d0448b88996937d2f855, type: 2}
-  - {fileID: 11400000, guid: d84fbfe79cd1d0448b88996937d2f855, type: 2}
-  - {fileID: 11400000, guid: d84fbfe79cd1d0448b88996937d2f855, type: 2}
-  - {fileID: 11400000, guid: d84fbfe79cd1d0448b88996937d2f855, type: 2}
-  - {fileID: 11400000, guid: d84fbfe79cd1d0448b88996937d2f855, type: 2}
-  - {fileID: 11400000, guid: d84fbfe79cd1d0448b88996937d2f855, type: 2}
-  - {fileID: 11400000, guid: d84fbfe79cd1d0448b88996937d2f855, type: 2}
+  - {fileID: 11400000, guid: 81a0801b7c499de4ab5aa444885c6ee2, type: 2}
+  - {fileID: 11400000, guid: 81a0801b7c499de4ab5aa444885c6ee2, type: 2}
+  - {fileID: 11400000, guid: 81a0801b7c499de4ab5aa444885c6ee2, type: 2}
+  - {fileID: 11400000, guid: 81a0801b7c499de4ab5aa444885c6ee2, type: 2}
 --- !u!1 &261059543
 GameObject:
   m_ObjectHideFlags: 0
@@ -1326,6 +1366,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3344412137063172222}
+  - {fileID: 1203599001}
+  - {fileID: 121395244}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &856555823
@@ -1979,6 +2021,54 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1182651128}
   m_Mesh: {fileID: -6692290496178104961, guid: fdd849ee62571ee49bc8b996694bafc7, type: 3}
+--- !u!1 &1203599000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1203599001}
+  - component: {fileID: 1203599002}
+  m_Layer: 0
+  m_Name: SelectPieceSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1203599001
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203599000}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 797942222}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1203599002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203599000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ac270d31aaa90748b307044a8a3d6a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputSelectPiece: {fileID: 121395245}
+  GameManager: {fileID: 1506185479}
+  CancelPlacement: {fileID: 717293511}
+  isSelectingPiece: 0
 --- !u!1 &1265379786
 GameObject:
   m_ObjectHideFlags: 0
@@ -2211,6 +2301,7 @@ MonoBehaviour:
   discardPilePoint: {fileID: 1380357578}
   chessBoardController: {fileID: 5645556662590425687}
   placementSystem: {fileID: 1755777873}
+  switchCamera: {fileID: 1929714616}
 --- !u!1 &1438007141
 GameObject:
   m_ObjectHideFlags: 0
@@ -2427,7 +2518,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 27.7
+  m_fontSize: 30.25
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2655,6 +2746,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   switchCamera: {fileID: 1929714616}
+  placementSystem: {fileID: 1755777873}
 --- !u!4 &1619153089 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 274343481735025955, guid: 3cc73ea1137c4134f9dd7dedda7f04bb, type: 3}
@@ -3396,6 +3488,7 @@ MonoBehaviour:
   objectPlacer: {fileID: 1633319139}
   CancelPlacement: {fileID: 717293511}
   GameManager: {fileID: 1506185479}
+  isPlacing: 0
 --- !u!1 &1800304861
 GameObject:
   m_ObjectHideFlags: 0
@@ -3547,7 +3640,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 998159c7dc6183f48be0bb4c578b8dd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneCamera: {fileID: 1678176458}
   placementLayerMask:
     serializedVersion: 2
     m_Bits: 8
@@ -4591,6 +4683,7 @@ MonoBehaviour:
   placementSystem: {fileID: 1755777873}
   Turn: {fileID: 1473424818}
   switchCamera: {fileID: 1929714616}
+  skipTurn: 0
 --- !u!114 &5705610572164865242
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -22,7 +22,7 @@ public class InputManager : MonoBehaviour
             OnClicked?.Invoke();
             resetCard();
         }
-        if(Input.GetKeyDown(KeyCode.Escape)){
+        if(Input.GetKeyDown(KeyCode.Escape) && selectedCard != null){
             OnExit?.Invoke();
             resetCard();
             cardView.SetActive(true);

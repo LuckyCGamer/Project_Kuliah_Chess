@@ -18,6 +18,8 @@ public class CardView : MonoBehaviour
     private Quaternion dragStartRotation;
     private PlacementSystem placementSystem;
     private InputManager InputManager;
+    private SelectionState selectionState;
+    private InputSelectPiece inputSelectPiece;
     private DropArea dropArea;
     private SwitchCamera SwitchCamera;
 
@@ -26,6 +28,8 @@ public class CardView : MonoBehaviour
     {
         placementSystem = FindFirstObjectByType<PlacementSystem>();
         InputManager = FindFirstObjectByType<InputManager>();
+        selectionState = FindAnyObjectByType<SelectionState>();
+        inputSelectPiece = FindAnyObjectByType<InputSelectPiece>();
         SwitchCamera = FindAnyObjectByType<SwitchCamera>();
     }
 
@@ -105,6 +109,13 @@ public class CardView : MonoBehaviour
                 placementSystem.StartPlacement(Card.IDGrid);
                 gameObject.SetActive(false);
                 InputManager.CardPlayed(Card, dragStartPosition, dragStartRotation, gameObject);
+            }
+            else if (Card.IsSelectPiece)
+            {
+                selectionState.StartSelection();
+                gameObject.SetActive(false);
+                inputSelectPiece.CardPlayed(Card, dragStartPosition, dragStartRotation, gameObject);
+
             }
             else
             {

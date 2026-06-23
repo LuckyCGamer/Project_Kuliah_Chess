@@ -5,7 +5,6 @@ using UnityEngine;
 
 public abstract class Effect 
 {
-
-    public abstract GameAction GetGameAction(Vector3Int targetGrid);
+    public abstract GameAction GetGameAction(Vector3Int targetGrid, Piece selectedPiece);
 
 }

@@ -44,10 +44,11 @@ public class PlacementState : IBuildingState
 
         public void OnAction(Vector3Int gridPosition)
         {
-            bool placementValidity = CheckPlacementValidity(gridPosition, selectedObjectIndex);
+            Vector3Int updatedGridPosition = CheckBoardEdge(gridPosition, database.objectsData[selectedObjectIndex].Size);
+
+            bool placementValidity = CheckPlacementValidity(updatedGridPosition, selectedObjectIndex);
             if (placementValidity == false) return;
 
-            Vector3Int updatedGridPosition = CheckBoardEdge(gridPosition);
             int index = objectPlacer.PlaceObject(database.objectsData[selectedObjectIndex].Prefab, grid.CellToWorld(updatedGridPosition));
 
             GridData selectedData = database.objectsData[selectedObjectIndex].ID == 0 ?
@@ -59,12 +60,13 @@ public class PlacementState : IBuildingState
                 index,
                 database.objectsData[selectedObjectIndex].boardEffect);
 
-            previewSystem.UpdatePosition(grid.CellToWorld(gridPosition), false);
+            previewSystem.UpdatePosition(grid.CellToWorld(updatedGridPosition), false);
 
         }
 
         private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
         {
+            
             GridData selectedData = database.objectsData[selectedObjectIndex].ID == 0 ?
                 floorData :
                 spaceData;
@@ -74,23 +76,34 @@ public class PlacementState : IBuildingState
 
         public void UpdateState(Vector3Int gridPosition)
         {
-            bool placementValidity = CheckPlacementValidity(gridPosition, selectedObjectIndex);
+            Vector3Int updatedGridPosition = CheckBoardEdge(gridPosition, database.objectsData[selectedObjectIndex].Size);
 
-            Vector3Int updatedGridPosition = CheckBoardEdge(gridPosition);
+            bool placementValidity = CheckPlacementValidity(updatedGridPosition, selectedObjectIndex);
             previewSystem.UpdatePosition(grid.CellToWorld(updatedGridPosition), placementValidity);
         }
 
-        private Vector3Int CheckBoardEdge(Vector3Int gridPosition)
+        private Vector3Int CheckBoardEdge(Vector3Int gridPosition, Vector2Int ObjectSize)
         {
-            Vector3Int offsetPosition = new Vector3Int(0,0,0);
+            Vector3Int offsetPosition = new Vector3Int(0, 0, 0);
+
             // Debug.Log(gridPosition);
-            if (gridPosition.x == 45)
+            if (ObjectSize.x == 2)
             {
-                offsetPosition.x += 1;
+                if (gridPosition.x == 45)
+                {
+                    offsetPosition.x = 1;
+                }
+                if(gridPosition.y == -85){
+                    offsetPosition.y = 1;
+                }
+                
             }
-            if(gridPosition.y == -85){
-                offsetPosition.y += 1;
+            if (ObjectSize.x == 4)
+            {
+                
             }
+
+
             return gridPosition + offsetPosition;
         }
     }

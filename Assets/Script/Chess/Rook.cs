@@ -6,7 +6,7 @@ using UnityEngine;
 public class Rook : Piece
 {
     
-    protected override List<string> GetPotentialMoves()
+    public override List<string> GetPotentialMoves()
     {
         List<string> potentialMoves = new List<String>();
         string currentPosition = this.currentPosition;
@@ -44,6 +44,15 @@ public class Rook : Piece
                 {
                     if (pieceAtNextPosition.GetComponent<Piece>().pieceColor != this.pieceColor)
                     {
+                        BoardEffect attackPieceEffect = pieceAtNextPosition.GetComponent<Piece>().CurrentPieceBoardStatusEffect;
+                        
+                        if(attackPieceEffect != null)
+                        {
+                            if (attackPieceEffect.isInvurnerable)
+                            {
+                                break;
+                            }                            
+                        }
                         potentialMoves.Add(nextPosition);
                     }
                     break; // Stop searching in this direction after encountering a piece
@@ -76,6 +85,7 @@ public class Rook : Piece
                 BoardEffect effect = CurrentPieceBoardStatusEffect == null ? GetBoardStatusEffect(nextPosition) : CurrentPieceBoardStatusEffect;
                 if (effect != null)
                 {
+                    
                     Movement++;
                     attackedFields.Add(nextPosition);
                     // Debug.Log($"the potential move is under effect : {Effect.name}");

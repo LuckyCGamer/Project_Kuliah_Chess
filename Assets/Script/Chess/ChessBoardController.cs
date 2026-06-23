@@ -6,12 +6,14 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ChessBoardController : MonoBehaviour
+public class ChessBoardController : Singleton<ChessBoardController>
 {
 
     public Dictionary<string, GameObject> chessBoardController = new Dictionary<string, GameObject>();
     public Dictionary<string, Vector3Int> boardGridLocation = new();
     public List<Piece> piecesOnBoard;
+    public Dictionary<string, GameObject> HistoryPiecesOnBoard = new();
+    public List<Dictionary<string, GameObject>> previousBoardState = new();
     public bool isWhiteTurn;
     public GameObject lastMovedPiece;
     public string lastMovedPieceStartPosition;
@@ -20,6 +22,7 @@ public class ChessBoardController : MonoBehaviour
     public Dictionary<string, bool> blackCheckMap = new();
     // BoardStats Effect Variable
     public Dictionary<AddEffectOnBoardGA, int> boardStatusEffect = new();
+    public Dictionary<PawnOfWarCardGA, int> pawnOfWar = new();
     public GridData Temp = new();
     public bool isPromotionActive = false;
     private UIManagerChess UIManagerChess;
@@ -27,6 +30,8 @@ public class ChessBoardController : MonoBehaviour
     [SerializeField] PlacementSystem placementSystem;
     [SerializeField] GameObject Turn;
     [SerializeField] SwitchCamera switchCamera;
+    [SerializeField] public bool skipTurn;
+    private int CapturedSnapShot = 0;
 
     public void Start()
     {
@@ -39,6 +44,7 @@ public class ChessBoardController : MonoBehaviour
         ChangeTurnText();
         ResetCheckMap();
         UpdatePiecesOnBoard();
+        UpdateHistoryBoard();
     }
 
     public void EndTurn()
@@ -50,11 +56,25 @@ public class ChessBoardController : MonoBehaviour
         ChangeTurnText();
         CheckGameOver();
         SwitchOtherPlayer();
+
+        if (CapturedSnapShot == 2)
+        {
+            UpdateHistoryBoard();
+            CapturedSnapShot = 0;
+        }
+
+        if (skipTurn)
+        {
+            skipTurn = false;
+            EndTurn();
+        }
+
+        CapturedSnapShot++;
     }
 
     public void SwitchOtherPlayer()
     {
-        if(switchCamera.Manager == 1)
+        if (switchCamera.Manager == 1)
         {
             switchCamera.switchCamera(2);
         }
@@ -83,7 +103,7 @@ public class ChessBoardController : MonoBehaviour
         // {
         //     Debug.Log($"{position.Key} : {position.Value}");
         // }
-        foreach(Piece piece in piecesOnBoard)
+        foreach (Piece piece in piecesOnBoard)
         {
             piece.UpdateStatusEffect();
         }
@@ -144,7 +164,7 @@ public class ChessBoardController : MonoBehaviour
     public string GetChessPosition(string position, int horizontal, int vertical)
     {
         List<char> chessPieces = new() { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };
-        
+
         char currentHorizontal = position[0];
         int currentVertical = int.Parse(position[1].ToString());
         int newHorizontalIndex = chessPieces.IndexOf(currentHorizontal) + vertical;
@@ -155,19 +175,34 @@ public class ChessBoardController : MonoBehaviour
         }
 
         string newPosition = chessPieces[newHorizontalIndex].ToString() + newVertical.ToString();
-        
+
         return newPosition;
     }
 
     private void UpdatePiecesOnBoard()
     {
         piecesOnBoard.Clear();
-        foreach (var position in chessBoardController){
+        foreach (var position in chessBoardController)
+        {
             if (position.Value != null)
             {
                 piecesOnBoard.Add(position.Value.GetComponent<Piece>());
             }
         }
+    }
+
+    public void UpdateHistoryBoard()
+    {
+        HistoryPiecesOnBoard.Clear();
+        HistoryPiecesOnBoard = new Dictionary<string, GameObject>(chessBoardController);
+
+        if (previousBoardState.Count >= 2)
+        {
+            previousBoardState.RemoveAt(0);
+        }
+
+        previousBoardState.Add(new Dictionary<string, GameObject>(chessBoardController));
+        
     }
 
     private void ResetCheckMap()
@@ -239,7 +274,7 @@ public class ChessBoardController : MonoBehaviour
                 // Debug.Log($"{king.pieceColor} King is not in check after the move.");
                 return false;
             }
-        } 
+        }
         else
         {
             return false;
@@ -310,9 +345,9 @@ public class ChessBoardController : MonoBehaviour
                 }
             }
 
-            if (kingCount == 2 && 
-                (knightCount == 0 && bishopCount == 0 && rookCount == 0 && queenCount == 0 || 
-                knightCount == 1 && bishopCount == 0 || 
+            if (kingCount == 2 &&
+                (knightCount == 0 && bishopCount == 0 && rookCount == 0 && queenCount == 0 ||
+                knightCount == 1 && bishopCount == 0 ||
                 knightCount == 0 && bishopCount == 1))
             {
                 string result = "Draw insufficient piece";

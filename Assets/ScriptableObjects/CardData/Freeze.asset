@@ -19,12 +19,12 @@ MonoBehaviour:
   <IsPlacement>k__BackingField: 1
   <ID>k__BackingField: 1
   <Effects>k__BackingField:
-  - rid: 2126511065378062341
+  - rid: 1019459651153952773
   references:
     version: 2
     RefIds:
-    - rid: 2126511065378062341
-      type: {class: PlaceEffectOnBoard, ns: , asm: Assembly-CSharp}
+    - rid: 1019459651153952773
+      type: {class: FreezeCardEffect, ns: , asm: Assembly-CSharp}
       data:
         boardEffect: {fileID: 11400000, guid: 2f6c8eb3a1e04a24992cc411293bcbb9, type: 2}
         EffectDuration: 3

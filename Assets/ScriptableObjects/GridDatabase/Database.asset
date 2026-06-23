@@ -18,3 +18,13 @@ MonoBehaviour:
     <Size>k__BackingField: {x: 2, y: 2}
     <Prefab>k__BackingField: {fileID: 6841572221981597451, guid: 738cb2ffb50b12d408b2b22697e181d6, type: 3}
     <boardEffect>k__BackingField: {fileID: 11400000, guid: 2f6c8eb3a1e04a24992cc411293bcbb9, type: 2}
+  - <Name>k__BackingField: Fotress Mode
+    <ID>k__BackingField: 2
+    <Size>k__BackingField: {x: 2, y: 2}
+    <Prefab>k__BackingField: {fileID: 6841572221981597451, guid: 738cb2ffb50b12d408b2b22697e181d6, type: 3}
+    <boardEffect>k__BackingField: {fileID: 11400000, guid: 93d7734f3b88bdd45b96bb78c0402dd0, type: 2}
+  - <Name>k__BackingField: Self Destruct
+    <ID>k__BackingField: 3
+    <Size>k__BackingField: {x: 1, y: 1}
+    <Prefab>k__BackingField: {fileID: 6841572221981597451, guid: 738cb2ffb50b12d408b2b22697e181d6, type: 3}
+    <boardEffect>k__BackingField: {fileID: 11400000, guid: 93d7734f3b88bdd45b96bb78c0402dd0, type: 2}

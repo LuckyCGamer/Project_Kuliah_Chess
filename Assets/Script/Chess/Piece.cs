@@ -15,8 +15,8 @@ public abstract class Piece : MonoBehaviour
     public int HasMoved;
     public int Movement = 0;
     public BoardEffect CurrentPieceBoardStatusEffect;
-    protected abstract List<String> GetPotentialMoves();
-
+    public List<string> additionalPotentialMove;
+    public abstract List<String> GetPotentialMoves();
     public abstract List<String> GetAttackedFields();
     public virtual List<String> GetLegalMoves()
     {
@@ -80,7 +80,6 @@ public abstract class Piece : MonoBehaviour
         {
             RemoveStatusEffect();
         }
-
         transform.position = GameObject.Find(newPosition).transform.position;
         chessBoardController.BoardDataNull(currentPosition);
         CapturePiece(newPosition);
@@ -89,13 +88,25 @@ public abstract class Piece : MonoBehaviour
         chessBoardController.UpdateBoardData(newPosition, this.gameObject);
     }
 
+    public void RestorePosition(string position)
+    {
+        currentPosition = position;
+
+        GameObject square = GameObject.Find(position);
+        if(square != null)
+        {
+            transform.position = square.transform.position;
+        }
+        chessBoardController.UpdateBoardData(position, this.gameObject);
+    }
+
     public void CapturePiece(string capturePosition)
     {
         // Implement logic for capturing the piece (e.g., remove from board, play animation)
         GameObject targetPiece = chessBoardController.GetChessPieceAtPosition(capturePosition);
         if (targetPiece != null)
         {
-            Destroy(targetPiece);
+            targetPiece.SetActive(false);
         }
         chessBoardController.BoardDataNull(capturePosition);
     }

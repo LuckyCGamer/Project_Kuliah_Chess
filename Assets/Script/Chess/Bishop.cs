@@ -6,7 +6,7 @@ using UnityEngine;
 public class Bishop : Piece
 {
 
-    protected override List<string> GetPotentialMoves()
+    public override List<string> GetPotentialMoves()
     {
 
         List<string> potentialMoves = new List<String>();
@@ -25,7 +25,6 @@ public class Bishop : Piece
 
             while (nextPosition != null)
             {
-
                 GameObject pieceAtNextPosition = chessBoardController.GetChessPieceAtPosition(nextPosition);
                 if (pieceAtNextPosition == null)
                 {
@@ -42,14 +41,17 @@ public class Bishop : Piece
                             break;
                         }
                     }
-
                     potentialMoves.Add(nextPosition);
                 }
                 else
                 {
                     if (pieceAtNextPosition.GetComponent<Piece>().pieceColor != this.pieceColor)
                     {
-                        potentialMoves.Add(nextPosition);
+                        BoardEffect attackPieceEffect = pieceAtNextPosition.GetComponent<Piece>().CurrentPieceBoardStatusEffect;
+                        if (!attackPieceEffect.isInvurnerable)
+                        {
+                            potentialMoves.Add(nextPosition);
+                        }
                     }
                     break; // Stop searching in this direction after encountering a piece
                 }
@@ -79,6 +81,7 @@ public class Bishop : Piece
 
             while (nextPosition != null)
             {
+
                 // check if movement under status effect
                 BoardEffect effect = CurrentPieceBoardStatusEffect == null ? GetBoardStatusEffect(nextPosition) : CurrentPieceBoardStatusEffect;
                 if (effect != null)
@@ -101,7 +104,6 @@ public class Bishop : Piece
                 nextPosition = chessBoardController.GetChessPosition(nextPosition, dx, dy);
             }
         }
-
         return attackedFields;
     }
 

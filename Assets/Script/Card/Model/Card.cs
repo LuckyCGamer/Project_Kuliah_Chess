@@ -8,6 +8,7 @@ public class Card
     public string Description => data.Description;
     public Sprite Image => data.Image;
     public bool IsPlacement => data.IsPlacement;
+    public bool IsSelectPiece => data.IsSelectPiece;
     public int IDGrid => data.ID;
     public List<Effect> Effects => data.Effects;
     private readonly CardData data;

@@ -8,6 +8,7 @@ public class BoardEffect : ScriptableObject
 
     [SerializeField] string effectName;
     [SerializeField] public int canMove;
+    [SerializeField] public bool isInvurnerable;
     [SerializeField] public List<string> cannotMove;
 
 }

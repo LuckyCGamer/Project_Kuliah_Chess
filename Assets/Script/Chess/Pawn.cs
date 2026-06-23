@@ -7,12 +7,18 @@ using UnityEngine;
 public class Pawn : Piece
 {
 
-    protected override List<string> GetPotentialMoves()
+    public override List<string> GetPotentialMoves()
     {
         List<string> potentialMoves = new List<String>();
         string currentPosition = this.currentPosition;
         int direction = IsWhite() ? -1 : 1;
         Movement = 0;
+
+        if(additionalPotentialMove.Count != 0)
+        {
+            potentialMoves.AddRange(additionalPotentialMove);
+        }
+        // Debug.Log(additionalPotentialMove.Count);
 
         if (chessBoardController.lastMovedPiece != null && chessBoardController.lastMovedPiece.GetComponent<Piece>().pieceType == "pawn")
         {
@@ -69,7 +75,19 @@ public class Pawn : Piece
         chessBoardController.GetChessPieceAtPosition(leftAttackMove) != null &&
         chessBoardController.GetChessPieceAtPosition(leftAttackMove).GetComponent<Piece>().IsWhite() != IsWhite())
         {
-            potentialMoves.Add(leftAttackMove);
+            BoardEffect attackPieceEffect = chessBoardController.GetChessPieceAtPosition(leftAttackMove).GetComponent<Piece>().CurrentPieceBoardStatusEffect;
+            if( attackPieceEffect != null)
+            {
+                if (!attackPieceEffect.isInvurnerable)
+                {
+                    potentialMoves.Add(leftAttackMove);
+                }
+            }
+            else
+            {
+                potentialMoves.Add(leftAttackMove);
+            }
+            
         }
 
         string rightAttackMove = chessBoardController.GetChessPosition(currentPosition, 1, 1 * direction);
@@ -77,7 +95,20 @@ public class Pawn : Piece
         chessBoardController.GetChessPieceAtPosition(rightAttackMove) != null &&
         chessBoardController.GetChessPieceAtPosition(rightAttackMove).GetComponent<Piece>().IsWhite() != IsWhite())
         {
-            potentialMoves.Add(rightAttackMove);
+            
+            BoardEffect attackPieceEffect = chessBoardController.GetChessPieceAtPosition(rightAttackMove).GetComponent<Piece>().CurrentPieceBoardStatusEffect;
+            if( attackPieceEffect != null)
+            {
+                if (!attackPieceEffect.isInvurnerable)
+                {
+                    potentialMoves.Add(rightAttackMove);
+                }
+            }
+            else
+            {
+                potentialMoves.Add(rightAttackMove);
+            }
+            
         }
 
         return potentialMoves;

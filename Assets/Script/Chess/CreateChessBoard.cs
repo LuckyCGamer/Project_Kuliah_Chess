@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CreateChessBoard : MonoBehaviour
+public class CreateChessBoard : Singleton<CreateChessBoard>
 {
 
     [SerializeField] GameObject BoardPlane;

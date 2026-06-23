@@ -6,7 +6,7 @@ using UnityEngine;
 public class Knight : Piece
 {
 
-    protected override List<string> GetPotentialMoves()
+    public override List<string> GetPotentialMoves()
     {
         List<string> potentialMoves = new List<String>();
         string currentPosition = this.currentPosition;
@@ -27,8 +27,19 @@ public class Knight : Piece
                 GameObject pieceAtNextPosition = chessBoardController.GetChessPieceAtPosition(nextPosition);
                 if (pieceAtNextPosition == null || pieceAtNextPosition.GetComponent<Piece>().pieceColor != this.pieceColor)
                 {
-                    // check if movement under status effect
                     BoardEffect effect = CurrentPieceBoardStatusEffect == null ? GetBoardStatusEffect(nextPosition) : CurrentPieceBoardStatusEffect;
+                    
+                    if(pieceAtNextPosition != null && effect != null)
+                    {
+                        BoardEffect attackPieceEffect = pieceAtNextPosition.GetComponent<Piece>().CurrentPieceBoardStatusEffect;
+                        if (attackPieceEffect.isInvurnerable)
+                        {
+                            continue;
+                        }
+                    }
+
+                    // check if movement under status effect
+                    
                     if (effect != null)
                     {
                         Movement++;
