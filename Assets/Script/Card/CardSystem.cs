@@ -14,6 +14,9 @@ public class CardSystem : Singleton<CardSystem>
     [SerializeField] private ChessBoardController chessBoardController;
     [SerializeField] private PlacementSystem placementSystem;
     [SerializeField] private SwitchCamera switchCamera;
+
+    public bool isCardPlayed = false;
+
     public readonly List<Card> drawPile = new();
     private readonly List<Card> discardPile = new();
     public List<Card> hand_player1 = new();
@@ -139,7 +142,8 @@ public class CardSystem : Singleton<CardSystem>
             yield return DiscardCard(cardView);        
         }
 
-        // Debug.Log(playCardGA.targetGrid);
+        isCardPlayed = true;
+
         // Perform effects
         foreach (Effect effect in playCardGA.Card.Effects)
         {
@@ -195,6 +199,7 @@ public class CardSystem : Singleton<CardSystem>
             }
         }
 
+        isCardPlayed = false;
 
     }
 

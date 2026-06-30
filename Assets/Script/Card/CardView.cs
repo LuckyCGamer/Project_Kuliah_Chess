@@ -52,6 +52,7 @@ public class CardView : MonoBehaviour
         float zoffset = 0.05f;
         if(!Interactions.Instance.PlayerCanHover()) return;
         if(!Interactions.Instance.IsPlayerCard(playerHand)) return;
+        if(Interactions.Instance.HasPlayedCard()) return;
 
         wrapper.SetActive(false);
         Vector3 pos = new(transform.position.x, transform.position.y + 0.3f, transform.position.z + zoffset);
@@ -67,6 +68,7 @@ public class CardView : MonoBehaviour
     {
         if(!Interactions.Instance.PlayerCanHover()) return;
         if(!Interactions.Instance.IsPlayerCard(playerHand)) return;
+        if(Interactions.Instance.HasPlayedCard()) return;
         CardViewHoverSystem.Instance.Hide();
         wrapper.SetActive(true);
     }
@@ -75,6 +77,7 @@ public class CardView : MonoBehaviour
     {
         if(!Interactions.Instance.PlayerCanInteract()) return;
         if(!Interactions.Instance.IsPlayerCard(playerHand)) return;
+        if(Interactions.Instance.HasPlayedCard()) return;
         Interactions.Instance.PlayerIsDragging = true;
         wrapper.SetActive(true);
         CardViewHoverSystem.Instance.Hide();
@@ -89,6 +92,7 @@ public class CardView : MonoBehaviour
     {
         if(!Interactions.Instance.PlayerCanInteract()) return;
         if(!Interactions.Instance.IsPlayerCard(playerHand)) return;
+        if(Interactions.Instance.HasPlayedCard()) return;
         transform.position = MouseUtil.GetMousePositionInWorldSpace(transform.position);
     }
 
@@ -96,6 +100,7 @@ public class CardView : MonoBehaviour
     {
         if(!Interactions.Instance.PlayerCanInteract()) return;
         if(!Interactions.Instance.IsPlayerCard(playerHand)) return;
+        if(Interactions.Instance.HasPlayedCard()) return;
         
         Vector3 mousePos = Input.mousePosition;
         Ray ray = Camera.main.ScreenPointToRay(mousePos);

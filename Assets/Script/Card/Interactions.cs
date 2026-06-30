@@ -7,7 +7,9 @@ public class Interactions : Singleton<Interactions>
 
     public bool PlayerIsDragging { get; set; } = false;
     [SerializeField] SwitchCamera switchCamera;
+
     [SerializeField] PlacementSystem placementSystem;
+
     public bool PlayerCanInteract()
     {
         if (!ActionSystem.Instance.IsPerforming) return true;
@@ -26,4 +28,9 @@ public class Interactions : Singleton<Interactions>
         return false;
     }
 
+    public bool HasPlayedCard()
+    {
+        if(CardSystem.Instance.isCardPlayed) return true;
+        return false;
+    }
 }

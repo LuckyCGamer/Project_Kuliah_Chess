@@ -305,8 +305,9 @@ public class ChessBoardController : Singleton<ChessBoardController>
 
             if (!hasValidMoves)
             {
-                string winner = isWhiteTurn ? "Black Wins" : "White Wins";
-                Debug.Log(winner);
+                string winner = isWhiteTurn ? "Black Win" : "White Win";
+                // Debug.Log(winner);
+                UIManagerChess.ShowGameOver(winner);
             }
         }
         else

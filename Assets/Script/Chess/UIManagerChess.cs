@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class UIManagerChess : MonoBehaviour
 {
 
     public GameObject promotionPanel;
+    public GameObject GameOver;
     private ChessBoardController chessBoardController;
     private Pawn promotingPawn;
     private CreateChessBoard createChessBoard;
@@ -17,6 +20,12 @@ public class UIManagerChess : MonoBehaviour
         chessBoardController = FindFirstObjectByType<ChessBoardController>();
         createChessBoard = FindFirstObjectByType<CreateChessBoard>();
         promotionPanel.SetActive(false);
+        GameOver.SetActive(false);
+    }
+
+    public void ResetScene()
+    {
+         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void Show(Pawn pawn)
@@ -64,6 +73,12 @@ public class UIManagerChess : MonoBehaviour
 
             chessBoardController.isPromotionActive = false;
         }
+    }
+
+    public void ShowGameOver(string player)
+    {
+        GameOver.SetActive(true);
+        GameOver.GetComponent<TextMeshProUGUI>().text = player;
     }
 
 }
