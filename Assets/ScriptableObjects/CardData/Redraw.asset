@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Description>k__BackingField: Redraw your and the opponent cards.
   <Title>k__BackingField: Redraw
-  <Image>k__BackingField: {fileID: 21300000, guid: 485454fce6fd40f44976f7aa3194c06c, type: 3}
+  <Image>k__BackingField: {fileID: 21300000, guid: 7f59a44fbb693fb428cda73b5a0c37e1, type: 3}
   <IsPlacement>k__BackingField: 0
   <IsSelectPiece>k__BackingField: 0
   <ID>k__BackingField: 0

@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Description>k__BackingField: Pawn bisa menangkap semua arah
   <Title>k__BackingField: Pawn Of War
-  <Image>k__BackingField: {fileID: 21300000, guid: 7fedac11a840ae1448e216f415710288, type: 3}
+  <Image>k__BackingField: {fileID: 21300000, guid: 2e6971078af33a640a22602b4b31dc74, type: 3}
   <IsPlacement>k__BackingField: 0
+  <IsSelectPiece>k__BackingField: 0
   <ID>k__BackingField: 0
   <Effects>k__BackingField:
   - rid: 1019459974957891591

@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Fortress
   m_EditorClassIdentifier: 
   <Description>k__BackingField: Membuat semua piece di dalam tidak bisa ditangkap
-  <Title>k__BackingField: Fortress
-  <Image>k__BackingField: {fileID: 21300000, guid: 7fedac11a840ae1448e216f415710288, type: 3}
+  <Title>k__BackingField: Safe zone
+  <Image>k__BackingField: {fileID: 21300000, guid: 7d4ac393b57c9344f8e69824cec10ec4, type: 3}
   <IsPlacement>k__BackingField: 1
+  <IsSelectPiece>k__BackingField: 0
   <ID>k__BackingField: 2
   <Effects>k__BackingField:
   - rid: 1019459931610284037
@@ -26,4 +27,4 @@ MonoBehaviour:
       type: {class: FreezeCardEffect, ns: , asm: Assembly-CSharp}
       data:
         boardEffect: {fileID: 11400000, guid: 93d7734f3b88bdd45b96bb78c0402dd0, type: 2}
-        EffectDuration: 4
+        EffectDuration: 3

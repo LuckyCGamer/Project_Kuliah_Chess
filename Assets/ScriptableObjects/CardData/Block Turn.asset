@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Description>k__BackingField: Skip turn musuh.
   <Title>k__BackingField: Block Turn
-  <Image>k__BackingField: {fileID: 21300000, guid: 7fedac11a840ae1448e216f415710288, type: 3}
+  <Image>k__BackingField: {fileID: 21300000, guid: c5ac9c7972b445144aaa34039b273f40, type: 3}
   <IsPlacement>k__BackingField: 0
   <IsSelectPiece>k__BackingField: 0
   <ID>k__BackingField: 0
